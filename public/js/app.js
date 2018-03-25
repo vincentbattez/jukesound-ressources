@@ -100,13 +100,10 @@ console.log("ready!");
 
 /*------------------------------------*\
     $ ROUTER
-\*------------------------------------*/ /*
-                                         <body class="homepage">
-                                         */
+\*------------------------------------*/
 var routes = new __WEBPACK_IMPORTED_MODULE_2__util_Router__["a" /* default */]({
     // Commun
     common: __WEBPACK_IMPORTED_MODULE_3__common__["a" /* default */],
-    // Toutes les autres pages
     create: __WEBPACK_IMPORTED_MODULE_4__pages_create__["a" /* default */]
 });
 // Load Events
@@ -10618,6 +10615,7 @@ var Router = function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_forms__ = __webpack_require__(8);
+console.log('create page');
 /*------------------------------------*\
     $ IMPORTS
 \*------------------------------------*/
@@ -10632,7 +10630,7 @@ var Router = function () {
     /* - - - - - - - - - - - - *\
         $ REMOVE FORM
     \* - - - - - - - - - - - - */
-    $('#ressource-container').delegate('click', '.js-removeForm', function (e) {
+    $('#ressource-container').on('click', '.js-removeForm', function (e) {
       e.preventDefault();
       __WEBPACK_IMPORTED_MODULE_0__components_forms__["c" /* removeForm */](this);
     });
@@ -10640,7 +10638,7 @@ var Router = function () {
         $ ADD FORM
     \* - - - - - - - - - - - - */
     var count = 2;
-    $('#ressource-container').delegate('click', '.js-addForm', function (e) {
+    $('#ressource-container').on('click', '.js-addForm', function (e) {
       e.preventDefault();
       __WEBPACK_IMPORTED_MODULE_0__components_forms__["a" /* addRessource */](count++);
     });

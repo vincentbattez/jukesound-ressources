@@ -127,9 +127,8 @@ class ItemsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Items $items) {
-        //
+       DB::table('jukesound_RES_items')->decrement('quantity', 5);
     }
-
     /**
      * Remove the specified resource from storage.
      *

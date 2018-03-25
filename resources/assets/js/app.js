@@ -14,14 +14,11 @@ import create from './pages/create';
 
 /*------------------------------------*\
     $ ROUTER
-\*------------------------------------*//*
-  <body class="homepage">
-
-*/
+\*------------------------------------*/
 const routes = new Router({
   // Commun
   common,
-  create,
+  create
 });
 // Load Events
 // eslint-disable-next-line rule
