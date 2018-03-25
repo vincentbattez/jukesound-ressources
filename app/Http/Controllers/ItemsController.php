@@ -25,6 +25,7 @@ class ItemsController extends Controller
             ->select(
                 'jukesound_RES_categories.name as categoryName',
                 'jukesound_RES_items.name as itemName',
+                'jukesound_RES_items.slug',
                 'jukesound_RES_items.quantity',
                 'jukesound_RES_items.quantity_jukebox',
                 'jukesound_RES_items.quantity_achat',
@@ -53,13 +54,13 @@ class ItemsController extends Controller
         $nbJukeboxRealisable = 0;
         $x = 1;
         for ($i=0; $i < sizeof($items); $i++) {
-            if ($items[$i]->quantity < $items[$i]->quantity_jukebox * $x) { // pas assez de ressources
-                break;
-            }
             if (sizeof($items) == $i+1) { // dernière itération
-                $nbJukeboxRealisable++;
                 $i=0;
                 $x++;
+                $nbJukeboxRealisable++;
+            }
+            if ($items[$i]->quantity < $items[$i]->quantity_jukebox * $x) { // pas assez de ressources
+                break;
             }
         }
 
@@ -119,10 +120,19 @@ class ItemsController extends Controller
         return view('items.edit', compact('items'));
     }
 
-    public function countIncrement($id){
+    public function increment($id, Request $request) {
         DB::table('jukesound_RES_items')
-                                        ->where('jukesound_RES_items.id', $id)
-                                        ->increment('quantity', 2);
+            ->where('jukesound_RES_items.id', $id)
+            ->increment('quantity', $request->input('nbAdd'));
+            
+        return redirect::route('items.index');
+    }
+
+    public function decrement($id, Request $request) {
+        DB::table('jukesound_RES_items')
+            ->where('jukesound_RES_items.id', $id)
+            ->decrement('quantity', $request->input('nbRemove'));
+            
         return redirect::route('items.index');
     }
 

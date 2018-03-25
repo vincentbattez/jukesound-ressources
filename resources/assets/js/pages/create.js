@@ -1,4 +1,3 @@
-console.log('create page');
 /*------------------------------------*\
     $ IMPORTS
 \*------------------------------------*/
@@ -6,6 +5,7 @@ import * as forms from '../components/forms';
 
 export default {
   init() { // JS déclanché en premier
+    console.log('create page');
     forms.htmlBtnRemove();
   },
   finalize() {

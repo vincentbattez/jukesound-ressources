@@ -9,6 +9,7 @@
     * @var $item->id               @type Number    @mean id of resource
     * @var $item->categoryName     @type String    @mean Name of category
     * @var $item->itemName         @type String    @mean Name of resource
+    * @var $item->slug             @type String    @mean Slug of resource
     * @var $item->quantity         @type Number    @mean Quantity dispo
     * @var $item->quantity_jukebox @type Number    @mean Quantity for 1 jukebox
     * @var $item->quantity_achat   @type Number    @mean Quantity for 1 achat
@@ -16,7 +17,7 @@
 
     $currentPage = [
         'title' => 'Liste des ressources - Jukesound Ressource',
-        'bodyClass' => 'dasboard'
+        'bodyClass' => 'dashboard'
     ];
 ?>
 @extends('layouts.app')
@@ -43,7 +44,7 @@
                     </form>
                     <form class="form-inline" action="#" method="POST">
                         <div class="form-group input-btn">
-                            <input type="number" name="nbMakeJukebox" class="form-control" value="1" min="1" max="{{$nbJukeboxRealisable}}">
+                            <input type="number" id="nbMakeJukebox" name="nbMakeJukebox" class="form-control" value="1" min="0" max="{{$nbJukeboxRealisable}}">
                             <button type="submit" name="startMake" class="btn btn-success">Lancer la fabrication du Jukebox</button>
                         </div>
                     </form>
@@ -68,7 +69,7 @@
         <div class="list-card collapse show" id="collapse{{$category->name}}">
             @foreach($items as $item)
             @if($item->categoryName == $category->name)
-                <div class="card card--{{ $item->quantity >= $item->quantity_jukebox ? 'success' : 'danger' }}"> 
+                <div class="card card--{{ $item->quantity >= $item->quantity_jukebox ? 'success' : 'danger' }}" id="{{$item->slug}}"> 
 
                     <div class="card__image">
                         <img src="{{ asset('images/category-interface/bouton-rond.jpg') }}" alt="categorie: {{$category->name}}, ressource: {{$item->itemName}}">
@@ -91,23 +92,32 @@
 
 
                         {!! Form::model($items, [
-                                'route' => ['items.countIncrement', $item->id], 
-                                'action' => 'ItemsController@countIncrement',
-                                'class' => 'form-inline',
-                                'method' => 'PUT'
+                                'route'  => ['items.increment', $item->id], 
+                                'action' => 'ItemsController@increment',
+                                'class'  => 'form-inline',
+                                'method' => 'PUT',
+                                'id'     => 'incrementForm'
                             ])
                         !!}
                             <div class="form-group input-btn">
-                                {!! Form::number('nbAdd', $item->quantity_jukebox, ['class' => 'form-control', 'required', 'min' => '1']) !!}
+                                {!! Form::number('nbAdd', $item->quantity_achat, ['class' => 'form-control', 'required', 'min' => '1']) !!}
                                 {!! Form::button('Ajouter', ['class' => 'btn btn-success', 'type' => 'submit']) !!}
                             </div>
                         {!! Form::close() !!}
-                        <form class="form-inline" action="#" method="POST">
+                        
+                        {!! Form::model($items, [
+                                'route'  => ['items.decrement', $item->id], 
+                                'action' => 'ItemsController@decrement',
+                                'class'  => 'form-inline',
+                                'method' => 'PUT',
+                                'id'     => 'decrementForm'
+                            ])
+                        !!}
                             <div class="form-group input-btn">
-                                <input type="number" name="nbRemove" class="form-control" value="{{$item->quantity_jukebox}}">
-                                <button type="submit" name="removeResource" class="btn btn-danger">Supprimer</button>
+                                {!! Form::number('nbRemove', $item->quantity_jukebox, ['class' => 'form-control', 'required', 'min' => '1']) !!}
+                                {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
                             </div>
-                        </form>
+                        {!! Form::close() !!}
                         <div class="btn-group">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @icon('more','icon-more')

@@ -18,8 +18,8 @@
 |--------------------------------------------------------------------------
 */
 Route::resource('items', 'ItemsController');
-
-Route::put('items/{item}', 'ItemsController@countIncrement')->name('items.countIncrement');
+Route::put('items/increment/{item}', 'ItemsController@increment')->name('items.increment');
+Route::put('items/decrement/{item}', 'ItemsController@decrement')->name('items.decrement');
 
 Route::get('/', function() {
     return redirect('/items');

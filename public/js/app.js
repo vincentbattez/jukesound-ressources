@@ -83,8 +83,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_unelib___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__lib_unelib__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_Router__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_create__ = __webpack_require__(7);
-console.log("ready!");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_dashboard__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_create__ = __webpack_require__(7);
 /*------------------------------------*\
     $ LIBRAIRIES
 \*------------------------------------*/
@@ -95,6 +95,8 @@ console.log("ready!");
     $ LIBRAIRIES
 \*------------------------------------*/
 
+
+// PAGES
 
 
 
@@ -104,12 +106,14 @@ console.log("ready!");
 var routes = new __WEBPACK_IMPORTED_MODULE_2__util_Router__["a" /* default */]({
     // Commun
     common: __WEBPACK_IMPORTED_MODULE_3__common__["a" /* default */],
-    create: __WEBPACK_IMPORTED_MODULE_4__pages_create__["a" /* default */]
+    // PAGES
+    dashboard: __WEBPACK_IMPORTED_MODULE_4__pages_dashboard__["a" /* default */],
+    create: __WEBPACK_IMPORTED_MODULE_5__pages_create__["a" /* default */]
 });
 // Load Events
 // eslint-disable-next-line rule
 jQuery(document).ready(function () {
-    return routes.loadEvents();
+    return routes.loadEvents(console.log("ready!"));
 });
 
 /***/ }),
@@ -10487,7 +10491,7 @@ return jQuery;
 /* 3 */
 /***/ (function(module, exports) {
 
-console.log("lib/unelib.js");
+// console.log("lib/unelib.js");
 
 /***/ }),
 /* 4 */
@@ -10615,7 +10619,6 @@ var Router = function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_forms__ = __webpack_require__(8);
-console.log('create page');
 /*------------------------------------*\
     $ IMPORTS
 \*------------------------------------*/
@@ -10624,6 +10627,7 @@ console.log('create page');
 /* harmony default export */ __webpack_exports__["a"] = ({
   init: function init() {
     // JS déclanché en premier
+    console.log('create page');
     __WEBPACK_IMPORTED_MODULE_0__components_forms__["b" /* htmlBtnRemove */]();
   },
   finalize: function finalize() {
@@ -10722,6 +10726,82 @@ function htmlBtnRemove() {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_quantity__ = __webpack_require__(16);
+/*------------------------------------*\
+    $ IMPORTS
+\*------------------------------------*/
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  init: function init() {
+    console.log('dashboard page');
+    $('#incrementForm, #decrementForm').on('click', '[type=submit]', function (e) {
+      e.preventDefault();
+      __WEBPACK_IMPORTED_MODULE_0__components_quantity__["a" /* ajaxAction */](this);
+    });
+  },
+  finalize: function finalize() {}
+});
+
+/***/ }),
+/* 15 */,
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = ajaxAction;
+/* unused harmony export decrement */
+/*------------------------------------*\
+    $ increment
+\*------------------------------------*/
+function ajaxAction(el) {
+  var $form = $(el).parents('form');
+  var $stockValue = $(el).parents('.card').find('.stock__value');
+  var quantityJukebox = parseInt($(el).parents('.card').find('.stock__quantity-jukebox').text());
+  var $card = $(el).parents('.card');
+  var idCard = $card.attr('id');
+  var $nbJukebox = $('.display-1');
+  var $maxMake = $('#nbMakeJukebox');
+
+  $.ajax({
+    method: $form.attr('method'),
+    url: $form.attr('action'),
+    data: $form.serialize(),
+    success: function success(data) {
+      var newStockValue = $(data).find('#' + idCard + ' .stock__value').text();
+      var newNbJukebox = $(data).find('.display-1').text();
+      var newMaxMake = $(data).find('#nbMakeJukebox').attr('max');
+
+      if (newStockValue < quantityJukebox) {
+        $card.removeClass('card--success').addClass('card--danger');
+      } else {
+        $card.addClass($card.hasClass('card--danger') ? 'card--success' : '').removeClass('card--danger');
+      }
+      // REMPLACEMENTS
+      $stockValue.text(newStockValue); // Stock value
+      $nbJukebox.text(newNbJukebox); // Nombre jukebox réalisable value
+      $maxMake.attr('max', newMaxMake); // max value of "lancer la fabrication"
+      $maxMake.attr('value', newMaxMake); // value of "lancer la fabrication"
+    },
+    error: function error() {
+      alert('La mise à jours de la quantité de la ressource à échoué');
+    }
+  });
+}
+/*------------------------------------*\
+    $ decrement
+\*------------------------------------*/
+function decrement() {}
 
 /***/ })
 /******/ ]);
