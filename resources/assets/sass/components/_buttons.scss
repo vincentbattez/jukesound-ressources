@@ -1,0 +1,41 @@
+/*------------------------------------*\
+    $ BUTTONS
+\*------------------------------------*/
+.btn-circle {
+  width:         30px;
+  height:        30px;
+  border:        1px solid black;
+  border-radius: 50%;
+  text-align:    center;
+  margin-right:  15px;
+  position:      relative;
+  cursor:        pointer;
+  transition:    border-color 300ms, transform 300ms $bounce; 
+  
+  &:after, &:before {
+    content:       '';
+    display:       inline-block;
+    width:         10px;
+    height:        2px;
+    border-radius: 2px;
+    @extend        %center-absolute_xy;
+  }
+
+  &:hover {
+    cursor:       pointer;  
+    transform:    scale(1.1);
+  }
+}
+
+.btn-add-ressource {
+  background:  none;
+  border:      none;
+  margin-left: 51px;
+  cursor:      pointer;
+  align-items: center;
+
+  &:hover .btn-circle {
+    border-color: $primary;
+    transform:    scale(1.1);
+  }
+}

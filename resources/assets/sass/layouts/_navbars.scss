@@ -1,0 +1,88 @@
+/*------------------------------------*\
+    $ NAV
+\*------------------------------------*/
+.main-nav {
+  @extend %center-flex_xy;
+  height: $h-nav;
+  /* - - - - - - - - - - - - *\
+      $ ITEM
+  \* - - - - - - - - - - - - */
+  .nav-item{
+    @extend %center-flex_xy;
+  }
+
+  .pull-right{
+    flex-direction: row;
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+
+    .nav-item:last-child .nav-link {
+      margin-right: 0;
+    }
+  }
+  /* - - - - - - - - - - - - *\
+      $ LINK
+  \* - - - - - - - - - - - - */
+  .nav-link {
+    padding-right: 0;
+    padding-left:  0;
+    margin-right:  40px;
+    position:      relative;
+
+    img {
+      height: 56px;
+    }
+
+    &:after {
+      content:    "";
+      width:      0%;
+      background: $primary;
+      height:     2px;
+      position:   absolute;
+      bottom:     0;
+      @extend     %center-absolute_x;
+      transition: all 300ms $bounce;
+    }
+
+    &:hover {
+      color: $secondary;
+      &:after{
+        width:      30%;
+        background: $secondary;
+      }
+    }
+    /* - - - - - - - - - - - - *\
+        $ active (current)
+    \* - - - - - - - - - - - - */
+    
+    @at-root .nav-item.active .nav-link:after {
+      width:      100%;
+      background: $primary;
+    }
+  }
+}
+.main-nav ul > .nav-item:first-child .nav-link:after {
+  content: none;
+}
+
+
+/*------------------------------------*\
+    $ media: desktop
+\*------------------------------------*/
+@include desktop {
+  .pull-right {
+    display: none !important;
+  }
+
+  .main-nav {
+    height: $h-nav-m;
+
+    .logo img {
+      height: 40px
+    }
+    .nav{
+      padding-left: 15px;
+    }
+  }
+}

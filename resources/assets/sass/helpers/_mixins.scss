@@ -1,0 +1,178 @@
+/*------------------------------------*\
+    $ MEDIAS QUERIES
+\*------------------------------------*/
+// Code pour les grand écrans d'ordinateurs
+@mixin large-desktop {
+  @media screen and (min-width: #{$large-desktop}) {
+    @content;
+  }
+}
+// Code pour les écrans d'ordinateurs et +
+@mixin desktop {
+  @media screen and (max-width: #{$desktop}) {
+    @content;
+  }
+}
+// Code uniquement pour les écrans de tablette
+@mixin only-tablet {
+  @media screen and (min-width: #{$mobile}) and (max-width: #{$tablet}) {
+    @content;
+  }
+}
+// Code pour les écrans de tablette et -
+@mixin tablet {
+  @media screen and (max-width: #{$tablet}) {
+    @content;
+  }
+}
+// Code uniquement pour les écrans mobile
+@mixin mobile {
+  @media screen and (max-width: #{$mobile}) {
+    @content;
+  }
+}
+// Code uniquement pour les écrans en format paysage
+@mixin landscape {
+  @media screen and (orientation: landscape) {
+    @content;
+  }
+}
+// Code uniquement pour l'impression
+@mixin print {
+  @media print {
+    @content;
+  }
+}
+/*__.----------*\
+    $ USAGE
+\*__.----------*//*
+
+  @include mobile{
+    // code
+  };
+
+  @include tablet{
+    // code
+  };
+
+*/
+@mixin media($media){
+  @media screen and (#{$media}) {
+    @content;
+  }
+}
+/*__.----------*\
+    $ USAGE
+\*__.----------*//*
+
+  @include media('max-width:1024px'){
+    // code
+  };
+
+*/
+
+
+/*__.---------------------------*\
+    $ CENTRER
+\*__.---------------------------*/
+// Define vertical, horizontal, or both position
+@mixin center-absolute($xy) {
+  position: absolute;
+  
+  @if $xy == 'y' {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  @else if $xy == 'x' {
+    left: 50%;
+    transform: translate(-50%);
+  }
+  @else if $xy == 'xy' {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+/*__.----------*\
+    $ USAGE
+\*__.----------*//*
+
+  .class1 {
+    @include center-absolute('x');
+  }
+  .class2 {
+    @include center-absolute('y');
+  }
+  .class3 {
+    @include center-absolute('xy');
+  }
+
+*/
+
+@mixin center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/*__.----------*\
+    $ USAGE
+\*__.----------*//*
+
+  .class1 {
+    @include center-block;
+  }
+
+*/
+
+@mixin center-flex($xy) {
+  display: flex;
+
+  @if $xy == 'y' {
+    align-items: center;
+  }
+  @else if $xy == 'x' {
+    justify-content: center;
+  }
+  @else if $xy == 'xy' {
+    align-items: center;
+    justify-content: center;
+  }
+}
+/*__.----------*\
+    $ USAGE
+\*__.----------*//*
+
+  .class1 {
+    @include center-flex('x');
+  }
+  .class2 {
+    @include center-flex('y');
+  }
+  .class3 {
+    @include center-flex('xy');
+  }
+
+*/
+
+
+/*__.---------------------------*\
+    $ FONT-SIZE
+\*__.---------------------------*/
+@function calculateRem($fz-body) {
+  $remSize: $fz-body / 16px;
+  @return  $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+/*__.----------*\
+    $ USAGE
+\*__.----------*//*
+
+  .class1 {
+    @include font-size(20px);
+  }
+
+*/

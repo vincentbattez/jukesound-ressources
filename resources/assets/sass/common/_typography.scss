@@ -1,0 +1,60 @@
+/*------------------------------------*\
+    $ TYPOGRAPHY
+\*------------------------------------*/
+body {
+  font-family: $ff-body;
+  font-weight: normal;
+  color:       $secondary;
+  @include     font-size($fz-body);
+}
+
+a {
+  color           : $secondary;
+  text-decoration : none;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  font-family : $ff-title;
+}
+
+.h2 {
+  margin-bottom: 15px;
+  @include font-size(30px);
+}
+
+.h3 {
+  margin-bottom: 10px;
+  @include font-size(20px);
+}
+
+.display-1,
+.display-2 {
+  font-family: $ff-title;
+  font-weight: bold;
+}
+
+.display-1 {
+  @include      font-size(260px);  
+  line-height:  150px;
+  position:     relative;
+  top:          -44px;
+  margin-right: 40px;
+}
+
+.display-2 {
+  @include font-size(64px);
+  width:   300px;
+}
+
+/*------------------------------------*\
+    $ media: desktop
+\*------------------------------------*/
+@include desktop {
+  .display-1 {
+    @include font-size(140px);
+    line-height: 90px;
+  }
+  .display-2 {
+    @include font-size(35px);
+  }
+}

@@ -1,0 +1,56 @@
+/*------------------------------------*\
+    $ OVERLAY
+\*------------------------------------*/
+%overlay:after {
+  content    : '';
+  width      : 100%;
+  height     : 100%;
+  display    : block;
+  background : rgba(0, 0, 0, 0.1);
+  position   : absolute;
+  top        : 0;
+}
+
+/*------------------------------------*\
+    $ CENTER ABSOLUTE
+\*------------------------------------*/
+@each $center in 'x', 'y', 'xy' {
+  %center-absolute_#{$center}{
+    @include center-absolute($center);
+  }
+}
+/* - - - - - - - - - - - - - - - - -*\
+    @use :
+
+    @extend %center-absolute_x;
+    @extend %center-absolute_y;
+    @extend %center-absolute_xy;
+\* - - - - - - - - - - - - - - - - -*/
+
+/*------------------------------------*\
+    $ CENTER FLEX
+\*------------------------------------*/
+@each $center in 'x', 'y', 'xy' {
+  %center-flex_#{$center}{
+    @include center-flex($center);
+  }
+}
+/* - - - - - - - - - - - - - - - - -*\
+    @use :
+
+    @extend %center-flex_x;
+    @extend %center-flex_y;
+    @extend %center-flex_xy;
+\* - - - - - - - - - - - - - - - - -*/
+
+/*------------------------------------*\
+    $ CENTER BLOCK
+\*------------------------------------*/
+%center-block {
+  @include center-block;
+}
+/* - - - - - - - - - - - - - - - - -*\
+    @use :
+
+    @extend %center-block;
+\* - - - - - - - - - - - - - - - - -*/

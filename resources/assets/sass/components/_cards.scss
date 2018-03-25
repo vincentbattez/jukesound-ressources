@@ -1,0 +1,298 @@
+/* - - - - - - - - - - - - *\
+    $ variables
+\* - - - - - - - - - - - - */
+$height-card:  75px;
+$padding-card: 4px;
+$true-height:  $height-card - $padding-card;
+
+$width-dropdown: 67px;
+
+/*------------------------------------*\
+    $ CARD
+\*------------------------------------*/
+.card {
+  //---- structure ----//
+  display:        flex;
+  flex-direction: row;
+  flex-wrap:      nowrap;
+  height:         $height-card;
+  width:          100%;
+  border:         none;
+  padding-bottom: $padding-card;
+
+  .list-card &:not(:last-child){
+    border-bottom:  1px solid $grey;
+    margin-bottom:  $padding-card;
+  }
+  
+  &__image {
+    width:  $true-height;
+    height: 100%;
+    img {
+      height: 100%;
+    }
+  }
+
+  &__stock {
+    width:             $true-height;
+    height:            100%;
+    text-align:        center;
+    flex-direction:    column;
+    border-width:      0px;
+    border-left-width: 1px;
+    border-style:      solid;
+    @extend            %center-flex_xy;
+
+    @at-root .stock {
+      letter-spacing: -1px;
+      margin-bottom:  0;
+      @include        font-size(14px);
+
+      .stock__value{
+        @include     font-size(20px);
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__content {
+    @extend       %center-flex_y;
+    padding-left: 20px;
+    width:        445px;
+    flex-grow:    1;
+    
+    @at-root .card__title {
+      margin-bottom: 0;
+      width:         100%;
+      @include       font-size(22px);
+    }
+  }
+
+  &__actions {
+    display:        flex;
+    flex-direction: row;
+    flex-wrap:      nowrap;
+    
+    .form-inline{
+      margin-right: 20px;
+    }
+    
+    /* - - - - - - - - - - - - *\
+        $ dropdown
+    \* - - - - - - - - - - - - */
+    .dropdown-toggle {
+      background:       none;
+      border:           none;
+      width:            65px;
+      background-color: transparent !important;
+      box-shadow:       none !important;
+      
+      &:focus{
+        box-shadow: none;
+        g {
+          fill: $primary;
+        }
+      }
+
+      &:after{
+        content: none;
+      }
+    }
+
+    /* - - - - - - - - - - - - *\
+        $ dropdown menu
+    \* - - - - - - - - - - - - */
+    .dropdown-menu {
+      border:           none;
+      border-radius:    2px;
+      background-color: #FFFFFF;
+      min-width:        $width-dropdown;
+      filter:           drop-shadow(0px -1px 3px rgba(0, 0, 0, 0.1));
+      margin:           0;
+      padding:          0;
+      
+      &:before {
+        content:      '';
+        width:        0;
+        height:       0;  
+        border-style: solid;
+        border-width: 0 15px 14px 15px;
+        border-color: transparent transparent #ffffff transparent;
+        @extend       %center-absolute_x;
+        top:          -13px;
+      }
+
+      .dropdown-item {
+        padding:    0;
+        width:      $width-dropdown;
+        height:     $width-dropdown;
+        @extend     %center-flex_xy;
+        transition: all 300ms;
+      }
+    }
+    
+  }
+
+  //-- modificateur --//
+  @each $name, $color in $list-etat {
+    &--#{$name} {
+      .card {
+        &__stock {
+          background-color: rgba($color, .2);
+          border-color:     $color;
+          @at-root .card--#{$name} .card__stock {
+            color: rgba( $color, .4 );
+  
+            .stock__value{
+              color: $color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.card--danger .card__stock{
+  color: $danger;
+}
+
+
+
+/*------------------------------------*\
+    $ CATEGORY
+\*------------------------------------*/
+.section-category {
+  margin-bottom: 20px;
+}
+
+.title-category {
+  position:      relative;
+  margin-bottom: 10px;
+  border:        none;
+  background:    none;
+
+  /* - - - - - - - - - - - - *\
+      $  ouvert
+  \* - - - - - - - - - - - - */
+  /* - - - - - - - - - - - - *\
+      $ hover & focus
+  \* - - - - - - - - - - - - */
+  &:hover, &:focus {
+    cursor: pointer;
+
+    &:before {
+      transform:    translateX(0) translateY(-50%) rotate(90deg);
+      border-color: transparent transparent transparent $primary;
+    }
+  }
+  /* - - - - - - - - - - - - *\
+      $ focus
+  \* - - - - - - - - - - - - */
+  &:focus {
+    outline: none;
+  }
+
+  /* - - - - - - - - - - - - *\
+      $ triangle
+  \* - - - - - - - - - - - - */
+  &:before {
+    content:          "";
+    display:          inline-block;
+    width:            12px;
+    height:           12px;
+    left:             0;
+    @extend           %center-absolute_y;
+    border-style:     solid;
+    border-width:     5.5px 0 5.5px 12px;
+    border-color:     transparent transparent transparent $primary;
+    transform:        translateY(-50%) rotate(90deg);
+    transition:       all 300ms $bounce;
+  }
+
+  .h3 {
+    margin-bottom: 0;
+    margin-left:   20px;
+  }
+
+  /*- - - - - - - - - - - - *\
+      $ fermé
+  \* - - - - - - - - - - - - */
+  &.collapsed {
+    &:before {
+      border-color: transparent transparent transparent lighten($secondary, 30);
+      transform:    translateX(-10px) translateY(-50%)
+    }
+    /* - - - - - - - - - - - - *\
+        $ hover & focus
+    \* - - - - - - - - - - - - */
+    &:hover:before,
+    &:focus:before {
+      transform:    translateX(0) translateY(-50%);
+      border-color: transparent transparent transparent $secondary;
+    }
+  }
+}
+
+#category-container .form-group {
+  margin-left: 40px;
+  margin-bottom: 0;
+  .title-category {
+    cursor: initial;
+    &:before{
+      left:   -33px;
+      top:    17px;
+      width:  16px;
+      height: 16px;
+      border-width: 8px 0 8px 16px;
+    }
+  }
+}
+
+/*------------------------------------*\
+    $ media: desktop
+\*------------------------------------*/
+@include desktop {
+  .card{
+    height: 60px;
+    /*___________ Structure  ___________*/
+      &__title{
+        @include font-size(16px);
+      }
+
+      &__content{
+        padding-left: 10px;
+      }
+
+      &__actions{
+        > form{
+          display: none;
+        }
+      }
+
+      &__stock{
+        width: 162px;
+        .stock__value, .stock {
+          @include font-size(16px);
+        }
+
+        .icon-stock {
+          transform: scale(0.8);
+        }
+      }
+    /*___________  Modifier  ___________*/
+      &--{}
+    /*___________  Content   ___________*/
+  }
+
+
+  .title-category {
+    /*- - - - - - - - - - - - *\
+        $ fermé
+    \* - - - - - - - - - - - - */
+    &.collapsed {
+      &:before {
+        transform:    translateX(0px) translateY(-50%)
+      }
+    }
+  }
+}

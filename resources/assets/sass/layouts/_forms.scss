@@ -1,0 +1,143 @@
+/*------------------------------------*\
+    $ FORMS
+\*------------------------------------*/
+input,
+select,
+.input-file,
+.form-control {
+	height:           40px;
+	background-color: #F5F5F5;
+  box-shadow:      inset 0 1px 2px 0 rgba(0,0,0,0.1);
+  border-radius:   0px;
+  border:          none;
+}
+
+::placeholder {
+  color: $grey--d1 !important;
+}
+
+.input-btn {
+  
+  input {
+    width:                      60px !important;
+    border-top-right-radius:    0;
+    border-bottom-right-radius: 0;
+    text-align:                 center;
+    background-color:           none;
+    box-shadow:                 none;
+  }
+  
+  button {
+    height:                    40px;
+    border-top-left-radius:    0;
+    border-bottom-left-radius: 0;
+    position:                  relative;
+    left:                      -4px;
+    top:                       0px;
+  }
+}
+
+/*------------------------------------*\
+    $ FILE
+\*------------------------------------*/
+input[type=file] {
+  width:   75px;
+  height:  75px;
+  opacity: 0;
+  
+  &:focus ~ label {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    background-color: white;
+  }
+}
+
+.file-container{
+  position:       relative;
+  display:        flex;
+  flex-direction: column;
+}
+
+.input-file {
+  color:      $grey--d1;
+  text-align: center;
+  cursor:     pointer;
+  position:   absolute;
+  bottom:     0;
+  left:       0;
+  height:     75px;
+  width:      75px;
+  cursor:     pointer;
+  @extend     %center-flex_xy;
+  box-shadow: none;
+
+  border-style: dotted;
+  border-color: $grey--d1;
+  border-image-source: url($pathIMG + "dots.svg");
+  border-image-slice: 12%;
+  border-image-repeat: round;
+
+  &:after, &:before {
+    content:       '';
+    display:       inline-block;
+    width:         14px;
+    height:        2px;
+    background:    $grey--d1;
+    border-radius: 2px;
+    @extend        %center-absolute_xy;
+  }
+  &:before{ transform: translate(-50%, -50%) rotate(90deg); }
+}
+
+.ressource > .form-group:not(:last-child) {
+  margin-right: 20px;
+}
+
+#ressource-container {
+  margin-left: 40px;
+}
+
+/*------------------------------------*\
+    $ ADD
+\*------------------------------------*/
+.add {
+  width:   40px;
+  height:  40px;
+  &:after, &:before{
+    background: $primary;
+  }
+  &:before {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  &:hover {
+    border-color:$primary;
+  }
+}
+
+/*------------------------------------*\
+    $ REMOVE
+\*------------------------------------*/
+.remove {
+  &:after {
+    background: $danger;
+  }
+  &:hover {
+    border-color:$danger;
+  }
+}
+
+/*------------------------------------*\
+    $ media: desktop
+\*------------------------------------*/
+@include desktop {
+  .input-btn {
+    width: 100%;
+
+    input{
+      display: inline-block;
+    }
+    button{
+      width: calc(100% - 64px);
+      top:     -2px;
+    }
+  }
+}

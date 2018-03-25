@@ -1,0 +1,71 @@
+/*------------------------------*\
+    $ VARIABLES & MINXINS
+\*------------------------------*/
+@import "helpers/variables";
+@import "helpers/mixins";
+
+/*------------------------------*\
+    $ LIBS & NODE_MODULES
+\*------------------------------*//*
+  Import npm dependencies
+ 
+  Prefix your imports with `~` to grab from node_modules/
+  @see https://github.com/webpack-contrib/sass-loader#imports
+ */
+@import "lib/bootstrap.scss";
+
+/*------------------------------*\
+    $ GOOGLE FONT
+\*------------------------------*//*
+  VOIR : https://fonts.google.com/
+*/
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:700|Rubik:400,700');
+
+
+/*------------------------------*\
+    $ COMMON
+\*------------------------------*/
+@import "common/global";
+@import "common/typography";
+@import "common/icons";
+
+/*------------------------------*\
+    $ HELPERS
+\*------------------------------*/
+@import "helpers/classes";
+@import "helpers/extends";
+
+/*------------------------------------*\
+    $ COMPONENTS
+\*------------------------------------*/
+@import "components/buttons";
+@import "components/cards";
+
+/*------------------------------------*\
+    $ LAYOUTS
+\*------------------------------------*/
+@import "layouts/headers";
+@import "layouts/navbars";
+@import "layouts/footers";
+@import "layouts/forms";
+
+/*------------------------------------*\
+    $ PAGES
+\*------------------------------------*/
+.homepage { // <body class="homepage">
+  @import "pages/homepage";
+}
+
+
+/*------------------------------*\
+    $ MEDIAS ORDER
+\*------------------------------*//*
+  C'est pour que webpack compile bien dans l'ordre
+*/
+@include large-desktop  {.mqpacker{display: none;}} 
+@include desktop        {.mqpacker{display: none;}} 
+@include tablet         {.mqpacker{display: none;}} 
+@include only-tablet    {.mqpacker{display: none;}} 
+@include mobile         {.mqpacker{display: none;}} 
+@include landscape      {.mqpacker{display: none;}} 
+@include print          {.mqpacker{display: none;}}
