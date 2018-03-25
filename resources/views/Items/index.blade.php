@@ -24,6 +24,7 @@
     HEADER
 ----------------}}
 @section('main-header')
+
 <div class="header--bg header--big header" style="background-image:url({{ asset('images/bg-header-list.jpg') }});">
     <div class="container">
         <h1><span class="bar-bg-title">Gestion de ressources</span><span class="d-block"> Jukesound</span></h1>
@@ -87,12 +88,20 @@
                     </div>
 
                     <div class="card__actions">
-                        <form class="form-inline" action="#" method="POST">
+
+
+                        {!! Form::model($items, [
+                                'route' => ['items.countIncrement', $item->id], 
+                                'action' => 'ItemsController@countIncrement',
+                                'class' => 'form-inline',
+                                'method' => 'PUT'
+                            ])
+                        !!}
                             <div class="form-group input-btn">
-                                <input type="number" name="nbAdd" class="form-control" value="{{$item->quantity_achat}}">
-                                <button type="submit" name="addResource" class="btn btn-success">Ajouter</button>
+                                {!! Form::number('nbAdd', $item->quantity_jukebox, ['class' => 'form-control', 'required', 'min' => '1']) !!}
+                                {!! Form::button('Ajouter', ['class' => 'btn btn-success', 'type' => 'submit']) !!}
                             </div>
-                        </form>
+                        {!! Form::close() !!}
                         <form class="form-inline" action="#" method="POST">
                             <div class="form-group input-btn">
                                 <input type="number" name="nbRemove" class="form-control" value="{{$item->quantity_jukebox}}">

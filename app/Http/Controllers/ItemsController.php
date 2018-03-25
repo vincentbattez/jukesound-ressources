@@ -119,6 +119,13 @@ class ItemsController extends Controller
         return view('items.edit', compact('items'));
     }
 
+    public function countIncrement($id){
+        DB::table('jukesound_RES_items')
+                                        ->where('jukesound_RES_items.id', $id)
+                                        ->increment('quantity', 2);
+        return redirect::route('items.index');
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -127,7 +134,6 @@ class ItemsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Items $items) {
-       DB::table('jukesound_RES_items')->decrement('quantity', 5);
     }
     /**
      * Remove the specified resource from storage.

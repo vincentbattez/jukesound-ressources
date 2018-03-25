@@ -19,6 +19,8 @@
 */
 Route::resource('items', 'ItemsController');
 
-Route::get('/', function(){
+Route::put('items/{item}', 'ItemsController@countIncrement')->name('items.countIncrement');
+
+Route::get('/', function() {
     return redirect('/items');
 });
