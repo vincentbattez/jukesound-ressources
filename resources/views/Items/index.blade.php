@@ -36,18 +36,26 @@
                     <span class="display-2">Jukebox réalisable</span>
                 </div>
                 <div class="header__white-content__action">
-                    <form class="form-inline" action="#" method="POST">
+                    <div class="form-inline">
                         <div class="form-group input-btn">
                             <input type="number" name="nbSimulateJukebox" class="form-control" value="{{$nbJukeboxRealisable}}" min="1">
                             <button type="submit" name="startSimulation" class="btn btn-success">Lancer la simulation</button>
                         </div>
-                    </form>
-                    <form class="form-inline" action="#" method="POST">
-                        <div class="form-group input-btn">
-                            <input type="number" id="nbMakeJukebox" name="nbMakeJukebox" class="form-control" value="1" min="0" max="{{$nbJukeboxRealisable}}">
-                            <button type="submit" name="startMake" class="btn btn-success">Lancer la fabrication du Jukebox</button>
-                        </div>
-                    </form>
+                    </div>
+
+                    {!! Form::model($items, [
+                        'route'  => ['items.makeJukebox'], 
+                        'action' => 'ItemsController@makeJukebox',
+                        'method' => 'POST',
+                        'class'  => 'form-inline',
+                        'id'     => 'productionForm'
+                    ])
+                !!}
+                    <div class="form-group input-btn">
+                        {!! Form::number('nbMakeJukebox', 1, ['class' => 'form-control', 'id' => 'nbMakeJukebox', 'required', 'min' => '0', 'max' => $nbJukeboxRealisable]) !!}
+                        {!! Form::button('Lancer la fabrication du Jukebox', ['class' => 'btn btn-success', 'id'=> 'launchProduction' ,'type' => 'submit']) !!}
+                    </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
 

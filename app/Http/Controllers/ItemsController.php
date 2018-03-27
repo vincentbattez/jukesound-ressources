@@ -55,6 +55,9 @@ class ItemsController extends Controller
         $x = 1;
         for ($i=0; $i < sizeof($items); $i++) {
             if (sizeof($items) == $i+1) { // dernière itération
+                if ($items[$i]->quantity < $items[$i]->quantity_jukebox * $x) { // pas assez de ressources
+                    break;
+                }
                 $i=0;
                 $x++;
                 $nbJukeboxRealisable++;
@@ -66,7 +69,7 @@ class ItemsController extends Controller
 
         /**
          *
-         *  @return all resources + all categories
+         *  @return all resources + all categories + nb jukebox réalisable
          *
          *  @location views/Items/index.blade.php
          *
@@ -132,6 +135,36 @@ class ItemsController extends Controller
         DB::table('jukesound_RES_items')
             ->where('jukesound_RES_items.id', $id)
             ->decrement('quantity', $request->input('nbRemove'));
+            
+        return redirect::route('items.index');
+    }
+
+    public function makeJukebox(Request $request) {
+        /**
+         *
+         *  @GET all resources
+         *
+         */
+        $items = DB::table('jukesound_RES_items')
+            ->select(
+                'jukesound_RES_items.id',
+                'jukesound_RES_items.quantity',
+                'jukesound_RES_items.quantity_jukebox'
+            )
+            ->get()
+        ;
+        /**
+         *
+         *  @DELETE decrement all ressources
+         *
+         */
+        foreach ($items as $k => $item) {
+            $nbRemove = $item->quantity_jukebox * $request->input('nbMakeJukebox');
+
+            DB::table('jukesound_RES_items')
+                ->where('jukesound_RES_items.id', $item->id)
+                ->decrement('quantity', $nbRemove);
+        }
             
         return redirect::route('items.index');
     }

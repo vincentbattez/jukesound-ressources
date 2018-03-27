@@ -18,8 +18,9 @@
 |--------------------------------------------------------------------------
 */
 Route::resource('items', 'ItemsController');
-Route::put('items/increment/{item}', 'ItemsController@increment')->name('items.increment');
-Route::put('items/decrement/{item}', 'ItemsController@decrement')->name('items.decrement');
+Route::put('items/increment/{item}', 'ItemsController@increment')  ->name('items.increment');
+Route::put('items/decrement/{item}', 'ItemsController@decrement')  ->name('items.decrement');
+Route::post('items/makeJukebox',      'ItemsController@makeJukebox')->name('items.makeJukebox');
 
 Route::get('/', function() {
     return redirect('/items');

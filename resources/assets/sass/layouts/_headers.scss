@@ -88,8 +88,9 @@
   \* - - - - - - - - - - - - */
   &__action {
     @extend    %center-flex_x;
-    width:           100%;
-    form:first-child {
+    width:     100%;
+    .form-inline{z-index: 1;}
+    .form-inline:first-child {
       margin-right: 20px;
     }
   }
