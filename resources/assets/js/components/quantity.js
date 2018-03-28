@@ -2,22 +2,25 @@
     $ increment
 \*------------------------------------*/
 export function ajaxAction(el) {
-  let $form           = $(el).parents('form');
-  let $stockValue     = $(el).parents('.card').find('.stock__value');
-  let quantityJukebox = parseInt($(el).parents('.card').find('.stock__quantity-jukebox').text());
-  let $card           = $(el).parents('.card');
-  let idCard          = $card.attr('id');
-  let $nbJukebox      = $('.display-1');
-  let $maxMake        = $('#nbMakeJukebox');
-  let $submitMaxMake  = $('#productionForm [type=submit]');
+  let $el              = $(el);
+  let elOldText        = $el.text();
+  let $form            = $el.parents('form');
+  let $stockValue      = $el.parents('.card').find('.stock__value');
+  let quantityJukebox  = parseInt($el.parents('.card').find('.stock__quantity-jukebox').text());
+  let $card            = $el.parents('.card');
+  let idCard           = $card.attr('id');
+  let $nbJukebox       = $('.display-1');
+  let $maxMake         = $('#nbMakeJukebox');
+  let $submitMaxMake   = $('#productionForm [type=submit]');
+  let $decrementSubmit = $el.parents('.card').find('#decrementForm [type=submit]');
+  let $decrementNumber = $el .parents('.card').find('#decrementForm [type=number]');
+  let decrementNumber  = parseInt($decrementNumber.attr('value'));
 
   /* - - - - - - - - - - - - - - - - -*\
       $ LANCER LA FABRICATION CLICK
   \* - - - - - - - - - - - - - - - - -*/
-  if ($(el).attr('id') == 'launchProduction') {
-    $stockValue     = $(el).parents('body').find('.stock__value');
-    quantityJukebox = parseInt($(el).parents('body').find('.stock__quantity-jukebox').text());
-    $card           = $(el).parents('body').find('.card');
+  if ($el.attr('id') == 'launchProduction') {
+    $stockValue     = $el.parents('body').find('.stock__value');
   }
   
   $.ajax({
@@ -25,45 +28,72 @@ export function ajaxAction(el) {
       url: $form.attr('action'),
       data: $form.serialize(),
       /*------------------------------------*\
-          $ SUCCESS
+          $ BEFORE SEND
       \*------------------------------------*/
-      success: function (data) {
-        let newStockValue = $(data).find('#'+ idCard + ' .stock__value').text();
-        let newNbJukebox  = $(data).find('.display-1').text();
-        let newMaxMake    = $(data).find('#nbMakeJukebox').attr('max');
+      beforeSend: function () {
+        // REMPLACEMENTS
+        $el.attr('disabled', 'true');   // Disabled trigger click
+        $el.text('Chargement');         // replace text trigger click
+      },
+      /*------------------------------------*\
+          $ COMPLETE
+      \*------------------------------------*/
+      complete: function(data) {
+        data = data.responseText;
+        let newStockValue = parseInt($(data).find('#'+ idCard + ' .stock__value').text());
+        let newNbJukebox  = parseInt($(data).find('.display-1').text());
+        let newMaxMake    = parseInt($(data).find('#nbMakeJukebox').attr('max'));
         let $allNewStock  = $(data).find('.stock__value');
+        let allNewStock   = parseInt($(data).find('.stock__value'));
         
         /* - - - - - - - - - - - - - - - - -*\
             $ LANCER LA FABRICATION CLICK
         \* - - - - - - - - - - - - - - - - -*/
-        if ($(el).attr('id') == 'launchProduction') {
+        if ($el.attr('id') == 'launchProduction') {
           $($allNewStock).each(function (i, stock) {
-            newStockValue = $(stock).text();
-            console.log($(this));
-            $(this).text(newStockValue);
-            console.log(this);
+            newStockValue     = parseInt($(stock).text());
+            quantityJukebox   = parseInt($($el.parents('body').find('.stock__quantity-jukebox')[i]).text());
+            $card             = $($el.parents('body').find('.card')[i]);
+            $decrementSubmit  = $($el.parents('body').find('#decrementForm [type=submit]')[i]);
+            $decrementNumber  = $($el.parents('body').find('#decrementForm [type=number]')[i]);
+            
+            // REMPLACEMENTS
+            $($('.stock__value')[i]).text(newStockValue);                                         // Stock value
+            $decrementSubmit.attr('disabled', (newStockValue < quantityJukebox) ? true : false);  // Disabled to true or false for decrement submit
+            $decrementNumber.attr('disabled', (newStockValue < quantityJukebox) ? true : false);  // Disabled to true or false for decrement input
+            $decrementNumber.attr('max', newStockValue);                                          // change max value of decrement input for decrement input
+            if (newStockValue < quantityJukebox) {
+              $card.removeClass('card--success').addClass('card--danger');                        // remove card--success + add card--danger for card container
+            }
           });
         }else {
           /* - - - - - - - - - - - - - - - - -*\
               $ OTHER TRIGGER CLICK
           \* - - - - - - - - - - - - - - - - -*/
-          if (newStockValue < quantityJukebox) {
-            $card.removeClass('card--success').addClass('card--danger');
-          }else{
-            $card.addClass(($card.hasClass('card--danger')) ? 'card--success' : '').removeClass('card--danger');
-          }
           // REMPLACEMENTS
-          $stockValue.text(newStockValue);                                   // Stock value
+          if (newStockValue < quantityJukebox) {
+            $card.removeClass('card--success').addClass('card--danger');                                         // remove card--success + add card--danger
+          }else {
+            $card.addClass(($card.hasClass('card--danger')) ? 'card--success' : '').removeClass('card--danger'); // remove card--success + add card--danger
+          }
+          $stockValue.text(newStockValue);                                                                       // Stock value
+          $decrementSubmit.attr('disabled', (newStockValue < quantityJukebox) ? true : false);                   // Disabled or not btn "Supprimer" when newStockValue < quantityJukebox
+          $decrementNumber.attr('disabled', (newStockValue < quantityJukebox) ? true : false);                   // Disabled or not btn "Supprimer" when newStockValue < quantityJukebox
+          $decrementNumber.attr('max', newStockValue);                                                           // Disabled or not btn "Supprimer" when newStockValue < quantityJukebox
+          $decrementNumber.attr('value', (newStockValue < quantityJukebox) ? 0 : decrementNumber);               // Disabled or not btn "Supprimer" when newStockValue < quantityJukebox
         }
-        if (newMaxMake == 0) {
-          $maxMake.attr('value', 0); // Nombre jukebox réalisable value
-        }else{
-          $maxMake.attr('value', 1); // Nombre jukebox réalisable value
-        }
-        $maxMake.attr('max', newMaxMake);                                  // max value of "lancer la fabrication"
-        $maxMake.attr('disabled', (newMaxMake == 0) ? true : false);       // Disabled or not input "lancer la fabrication" when maxMake = 0
-        $submitMaxMake.attr('disabled', (newMaxMake == 0) ? true : false); // Disabled or not btn "lancer la fabrication" when maxMake = 0
-        $nbJukebox.text(newNbJukebox);                                     // value of "lancer la fabrication"
+        /* - - - - - - - - - - - - *\
+            $ COMMUN
+        \* - - - - - - - - - - - - */
+        // REMPLACEMENTS
+        $maxMake.attr('value', (newMaxMake == 0) ? 0 : 1);                  // Nombre jukebox réalisable value
+        $maxMake.attr('max', newMaxMake);                                   // max value of "lancer la fabrication"
+        $maxMake.attr('disabled', (newMaxMake == 0) ? true : false);        // Disabled or not input "lancer la fabrication" when maxMake = 0
+        $submitMaxMake.attr('disabled', (newMaxMake == 0) ? true : false);  // Disabled or not btn "lancer la fabrication" when maxMake = 0
+        $nbJukebox.text(newNbJukebox);                                      // value of "lancer la fabrication"
+        $el.removeAttr('disabled');                                         // Disabled trigger click
+        $el.text(elOldText);                                                // replace text trigger click
+        alertMessage(message);                                              // Alert message
       },
 
       /*------------------------------------*\

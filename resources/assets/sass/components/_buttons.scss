@@ -13,6 +13,17 @@
       background-color: darken($color, 5);
       border-color: darken($color, 7);
     }
+
+    &:active {
+      background-color: darken($color, 5) !important;
+      border-color: darken($color, 7) !important;
+      box-shadow: 0 0 0 0.2rem rgba($color,.5) !important;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba($color,.5);
+    } 
+
     &:disabled {
       background-color: desaturate(lighten($color, 40), 50);
       border-color: desaturate(lighten($color, 37), 50);

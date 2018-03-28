@@ -122,8 +122,8 @@
                             ])
                         !!}
                             <div class="form-group input-btn">
-                                {!! Form::number('nbRemove', $item->quantity_jukebox, ['class' => 'form-control', 'required', 'min' => '1']) !!}
-                                {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
+                                {!! Form::number('nbRemove', $item->quantity_jukebox, ['class' => 'form-control', 'required', 'min' => '1', 'max' => $item->quantity]) !!}
+                                {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'id' => 'decrementSubmit', 'type' => 'submit']) !!}
                             </div>
                         {!! Form::close() !!}
                         <div class="btn-group">
