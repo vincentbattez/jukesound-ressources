@@ -1,0 +1,12 @@
+/*------------------------------------*\
+    $ ALERTS
+\*------------------------------------*/
+.alert {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  
+  &.fixed-top{
+    top: 20px;
+    left: auto;
+  }
+}

@@ -1,3 +1,4 @@
+import { notification } from '../components/alerts';
 /*------------------------------------*\
     $ increment
 \*------------------------------------*/
@@ -5,16 +6,19 @@ export function ajaxAction(el) {
   let $el              = $(el);
   let elOldText        = $el.text();
   let $form            = $el.parents('form');
-  let $stockValue      = $el.parents('.card').find('.stock__value');
-  let quantityJukebox  = parseInt($el.parents('.card').find('.stock__quantity-jukebox').text());
   let $card            = $el.parents('.card');
   let idCard           = $card.attr('id');
+  let $stockValue      = $card.find('.stock__value');
+  let quantityJukebox  = parseInt($card.find('.stock__quantity-jukebox').text());
   let $nbJukebox       = $('.display-1');
   let $maxMake         = $('#nbMakeJukebox');
   let $submitMaxMake   = $('#productionForm [type=submit]');
-  let $decrementSubmit = $el.parents('.card').find('#decrementForm [type=submit]');
-  let $decrementNumber = $el .parents('.card').find('#decrementForm [type=number]');
+  let $decrementSubmit = $card.find('#decrementForm [type=submit]');
+  let $decrementNumber = $card.find('#decrementForm [type=number]');
   let decrementNumber  = parseInt($decrementNumber.attr('value'));
+  let nameRessource    = $card.find('.card__title').text();
+  let IdRessource      = $card.attr('id');
+  let numberInputValue = $el.closest('.form-group').find('[type=number]').val();
 
   /* - - - - - - - - - - - - - - - - -*\
       $ LANCER LA FABRICATION CLICK
@@ -45,6 +49,7 @@ export function ajaxAction(el) {
         let newMaxMake    = parseInt($(data).find('#nbMakeJukebox').attr('max'));
         let $allNewStock  = $(data).find('.stock__value');
         let allNewStock   = parseInt($(data).find('.stock__value'));
+        let message       = 'Ajout de <strong>' + numberInputValue +'</strong> <a href="#'+IdRessource+'">'+ nameRessource + '</a>';
         
         /* - - - - - - - - - - - - - - - - -*\
             $ LANCER LA FABRICATION CLICK
@@ -93,7 +98,7 @@ export function ajaxAction(el) {
         $nbJukebox.text(newNbJukebox);                                      // value of "lancer la fabrication"
         $el.removeAttr('disabled');                                         // Disabled trigger click
         $el.text(elOldText);                                                // replace text trigger click
-        alertMessage(message);                                              // Alert message
+        notification(message, 'success', 'addRemoveNotif', 2000);        // notification
       },
 
       /*------------------------------------*\

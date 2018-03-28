@@ -97,8 +97,6 @@
                     </div>
 
                     <div class="card__actions">
-
-
                         {!! Form::model($items, [
                                 'route'  => ['items.increment', $item->id], 
                                 'action' => 'ItemsController@increment',
