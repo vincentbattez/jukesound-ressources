@@ -107,7 +107,7 @@
                         !!}
                             <div class="form-group input-btn">
                                 {!! Form::number('nbAdd', $item->quantity_achat, ['class' => 'form-control', 'required', 'min' => '1']) !!}
-                                {!! Form::button('Ajouter', ['class' => 'btn btn-success', 'type' => 'submit']) !!}
+                                {!! Form::button('Ajouter', ['class' => 'btn btn-success', 'id' => 'incrementSubmit', 'type' => 'submit']) !!}
                             </div>
                         {!! Form::close() !!}
                         

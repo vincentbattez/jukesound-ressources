@@ -2,11 +2,22 @@
     $ ALERTS
 \*------------------------------------*/
 .alert {
-  border-top-right-radius: 0;
+  border-top-right-radius:    0;
   border-bottom-right-radius: 0;
+  display:                    inline-block;
+  float:                      right;
+  clear:                      both;
+
+  a {
+    text-decoration: underline;
+  }
   
-  &.fixed-top{
-    top: 20px;
-    left: auto;
+  &-container{
+    position:   fixed;
+    right:      0;
+    z-index:    10000;
+    top:        20px;
+    width:      auto;
+    text-align: right;
   }
 }

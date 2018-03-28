@@ -15,6 +15,24 @@
 </head>
 
 <body class="{{$currentPage['bodyClass']}}">
+
+  <aside class="alert-container">
+
+    {{-- <div class="alert alert-success alert-dismissible notification slide show" id="addRemoveNotif" role="alert">
+      Suppression de <strong>2</strong> <a href="#cable-secteur">Câble secteur</a>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="alert alert-success alert-dismissible notification slide show" id="addRemoveNotif" role="alert">
+      Suppression de <strong>2</strong> <a href="#cable-secteur">Câble secteur</a>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div> --}}
+
+  </aside>
+
   <header>
       @include('layouts.main-nav')
       @yield('main-header')

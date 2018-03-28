@@ -1,4 +1,10 @@
 <?php
+    /**
+    * Variables
+    *
+    * @var $categories           @type [{}]      @mean All categories
+    * @var $category->name       @type String    @mean Name of category
+    */
     $currentPage = [
         'title' => 'Créer une nouvelle ressource - Jukesound Ressource',
         'bodyClass' => 'create'
@@ -34,8 +40,10 @@
                             <datalist id="categoriesData">
                                 <label for="selectCategory" class="form-control">ou sélectionner dans la liste</label>
                                 <select name="selectCategory" id="selectCategory">
-                                    <option value="Interfaces">
-                                    <option value="Matériaux">
+                                    @foreach ($categories as $category)
+                                    <option value="{{$category->name}}">
+                                        
+                                    @endforeach
                                 </select>
                             </datalist>
                         </div> 

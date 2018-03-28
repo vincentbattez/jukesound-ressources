@@ -1,0 +1,7 @@
+.slide {
+  transition: transform .85s ease-in-out;
+  transform:  translateX(101%);
+  &.show {
+    transform: translateX(0);
+  }
+}

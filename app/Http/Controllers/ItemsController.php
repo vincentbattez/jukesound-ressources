@@ -87,9 +87,18 @@ class ItemsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
+        /**
+         *
+         *  @GET all categories
+         *
+         */
+        $categories = DB::table('jukesound_RES_categories')
+            ->select('jukesound_RES_categories.name')
+            ->get()
+        ;
         return view('items.create', [
             //'items' => $items,
-            //'categories' => $categories
+            'categories' => $categories
         ]);
     }
 
@@ -184,8 +193,31 @@ class ItemsController extends Controller
      * @param  \App\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Items $items) {
-        $items->delete();
+    public function destroy($id) {
+        $items = DB::table('jukesound_RES_items')
+            ->select('jukesound_RES_items.id_category')
+            ->where('id', $id)
+            ->limit(1)
+            ->get();
+
+        $nbSameCategory = sizeof(
+            DB::table('jukesound_RES_items')
+            ->select('jukesound_RES_items.id')
+            ->where('id_category', $items[0]->id_category)
+            ->get()
+        );
+
+        DB::table('jukesound_RES_items')
+            ->where('id', $id)
+            ->delete();
+
+        if ($nbSameCategory === 1) {
+            DB::table('jukesound_RES_categories')
+                ->where('id', $items[0]->id_category)
+                ->delete();
+        }
+
+
         return redirect::route('items.index');
     }
 }
