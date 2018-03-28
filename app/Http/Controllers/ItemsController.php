@@ -28,7 +28,9 @@ class ItemsController extends Controller
                 'jukesound_RES_items.slug',
                 'jukesound_RES_items.quantity',
                 'jukesound_RES_items.quantity_jukebox',
-                'jukesound_RES_items.quantity_achat',
+                'jukesound_RES_items.quantity_buy',
+                'jukesound_RES_items.url',
+                'jukesound_RES_items.image',
                 'jukesound_RES_items.id'
             )
             ->orderBy('categoryName')
@@ -55,6 +57,7 @@ class ItemsController extends Controller
         $x = 1;
         for ($i=0; $i < sizeof($items); $i++) {
             if (sizeof($items) == $i+1) { // dernière itération
+
                 if ($items[$i]->quantity < $items[$i]->quantity_jukebox * $x) { // pas assez de ressources
                     break;
                 }
@@ -62,6 +65,7 @@ class ItemsController extends Controller
                 $x++;
                 $nbJukeboxRealisable++;
             }
+
             if ($items[$i]->quantity < $items[$i]->quantity_jukebox * $x) { // pas assez de ressources
                 break;
             }
@@ -128,8 +132,41 @@ class ItemsController extends Controller
      * @param  \App\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function edit(Items $items) {
-        return view('items.edit', compact('items'));
+    public function edit($id) {
+        /**
+         *
+         *  @GET resources by id
+         *
+         */
+        $item = DB::table('jukesound_RES_items')
+            ->join('jukesound_RES_categories', 'jukesound_RES_categories.id', '=', 'jukesound_RES_items.id_category')
+            ->select(
+                'jukesound_RES_categories.name as categoryName',
+                'jukesound_RES_items.name as itemName',
+                'jukesound_RES_items.slug',
+                'jukesound_RES_items.quantity',
+                'jukesound_RES_items.quantity_jukebox',
+                'jukesound_RES_items.quantity_buy',
+                'jukesound_RES_items.url',
+                'jukesound_RES_items.image',
+                'jukesound_RES_items.id'
+            )
+            ->orderBy('categoryName')
+            ->get()
+        ;
+        /**
+         *
+         *  @GET all categories
+         *
+         */
+        $categories = DB::table('jukesound_RES_categories')
+            ->select('jukesound_RES_categories.name')
+            ->get()
+        ;
+        return view('items.edit', [
+            'item' => $item[0],
+            'categories' => $categories
+        ]);
     }
 
     public function increment($id, Request $request) {

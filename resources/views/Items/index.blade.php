@@ -12,7 +12,9 @@
     * @var $item->slug             @type String    @mean Slug of resource
     * @var $item->quantity         @type Number    @mean Quantity dispo
     * @var $item->quantity_jukebox @type Number    @mean Quantity for 1 jukebox
-    * @var $item->quantity_achat   @type Number    @mean Quantity for 1 achat
+    * @var $item->quantity_buy   @type Number    @mean Quantity for 1 achat
+    * @var $item->url              @type String    @mean Url for buy ressource
+    * @var $item->image            @type String    @mean path image of ressource
     */
 
     $currentPage = [
@@ -106,7 +108,7 @@
                             ])
                         !!}
                             <div class="form-group input-btn">
-                                {!! Form::number('nbAdd', $item->quantity_achat, ['class' => 'form-control', 'required', 'min' => '1']) !!}
+                                {!! Form::number('nbAdd', $item->quantity_buy, ['class' => 'form-control', 'required', 'min' => '1']) !!}
                                 {!! Form::button('Ajouter', ['class' => 'btn btn-success', 'id' => 'incrementSubmit', 'type' => 'submit']) !!}
                             </div>
                         {!! Form::close() !!}
@@ -131,10 +133,17 @@
                             {{--  MENU DROPDOWN  --}}
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{ route('items.edit', $item->id) }}">@icon('edit','icon-edit')</a>
-                                <a class="dropdown-item" target="_blank" href="https://amazon.fr">@icon('shop','icon-shop')</a>
+                                <a class="dropdown-item" target="_blank" href="{{$item->url}}">@icon('shop','icon-shop')</a>
 
-                                {!! Form::open(array('route' => ['items.destroy', $item->id], 'method' => 'DELETE')) !!}
-                                    <button class="dropdown-item bg-danger" type="submit">@icon('delete','icon-delete')</button>
+
+                                {!! Form::model($items, [
+                                        'route'  => ['items.destroy', $item->id], 
+                                        'action' => 'ItemsController@destroy',
+                                        'method' => 'DELETE',
+                                        'id'     => 'destroyForm'
+                                    ])
+                                !!}
+                                    <button class="dropdown-item bg-danger" type="submit" onclick="return confirm('Voulez-vous vraiment supprimer {{$item->itemName}} ?')">@icon('delete','icon-delete')</button>
                                 {!! Form::close() !!}
                             </div>
                         </div>
