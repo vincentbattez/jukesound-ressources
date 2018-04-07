@@ -41,8 +41,7 @@
                                 <label for="selectCategory" class="form-control">ou sélectionner dans la liste</label>
                                 <select name="selectCategory" id="selectCategory">
                                     @foreach ($categories as $category)
-                                    <option value="{{$category->name}}">
-                                        
+                                        <option value="{{$category->name}}">
                                     @endforeach
                                 </select>
                             </datalist>

@@ -113,7 +113,18 @@ class ItemsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
+        $name             = $request->input('name');
+        $image            = $request->input('image');
+        $quantity_jukebox = $request->input('quantity_jukebox');
+        $quantity_buy     = $request->input('quantity_buy');
+        $url              = $request->input('url');
+        $category         = $request->input('inputCategory');
+
+        echo '<pre>';
+        var_dump($request->input());
+        echo '</pre>';
+
+        // $items->save();
     }
 
     /**
@@ -151,7 +162,8 @@ class ItemsController extends Controller
                 'jukesound_RES_items.image',
                 'jukesound_RES_items.id'
             )
-            ->orderBy('categoryName')
+            ->where('jukesound_RES_items.id', $id)
+            ->limit(1)
             ->get()
         ;
         /**
