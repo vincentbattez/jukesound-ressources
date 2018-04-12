@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Items;
+use App\Item;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -18,40 +19,9 @@ class ItemsController extends Controller
 
         @location  /resources/views/Items/index.blade.php
     */
-    public function index() {
-        /**
-         *
-         *  @return GET all resources
-         *
-         */
-        $items = DB::table('jukesound_RES_items')
-            ->join('jukesound_RES_categories', 'jukesound_RES_categories.id', '=', 'jukesound_RES_items.id_category')
-            ->select(
-                'jukesound_RES_categories.name as categoryName',
-                'jukesound_RES_items.name as itemName',
-                'jukesound_RES_items.slug',
-                'jukesound_RES_items.quantity',
-                'jukesound_RES_items.quantity_jukebox',
-                'jukesound_RES_items.quantity_buy',
-                'jukesound_RES_items.url',
-                'jukesound_RES_items.image',
-                'jukesound_RES_items.id'
-            )
-            ->orderBy('categoryName')
-            ->get()
-        ;
-        /**
-         *
-         *  @return GET all categories
-         *
-         */
-        $categories = DB::table('jukesound_RES_items')
-            ->join('jukesound_RES_categories', 'jukesound_RES_categories.id', '=', 'jukesound_RES_items.id_category')
-            ->select('jukesound_RES_categories.name')
-            ->groupBy('jukesound_RES_categories.name')
-            ->orderBy('jukesound_RES_categories.name')
-            ->get()
-        ;
+    public function index(Item $items, Category $categories) {
+        $items      = $items::all();      // @return GET all resources
+        $categories = $categories::all(); // @return GET all categories
         /**
          *
          *  @return Function nb Jukebox réalisable
@@ -121,7 +91,7 @@ class ItemsController extends Controller
 
         @location /resources/views/Items/show.blade.php
     */
-    public function show(Items $items) {
+    public function show(Item $items) {
         //
     }
     
@@ -188,7 +158,9 @@ class ItemsController extends Controller
 
         @return Stock un nouvel items dans la BDD
     */
-    public function store(Request $request) {
+    public function store(Request $request, Item $items) {
+        $items = new Item();
+
         $name             = $request->input('name');
         $image            = $request->input('image');
         $quantity_jukebox = $request->input('quantity_jukebox');
@@ -197,7 +169,7 @@ class ItemsController extends Controller
         $category         = $request->input('inputCategory');
 
         echo '<pre>';
-        var_dump($request->input());
+        var_dump($name);
         echo '</pre>';
 
         // $items->save();
@@ -262,7 +234,7 @@ class ItemsController extends Controller
 
         @return Update the specified resource in storage
     */
-    public function update(Request $request, Items $items) {
+    public function update(Request $request, Item $items) {
     }
 
     /*———————————————————————————————————*\

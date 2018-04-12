@@ -8,7 +8,7 @@
     * @var $items                  @type [{}]      @mean All resources
     * @var $item->id               @type Number    @mean id of resource
     * @var $item->categoryName     @type String    @mean Name of category
-    * @var $item->itemName         @type String    @mean Name of resource
+    * @var $item->name         @type String    @mean Name of resource
     * @var $item->slug             @type String    @mean Slug of resource
     * @var $item->quantity         @type Number    @mean Quantity dispo
     * @var $item->quantity_jukebox @type Number    @mean Quantity for 1 jukebox
@@ -78,11 +78,12 @@
         </button>
         <div class="list-card collapse show" id="collapse{{$category->name}}">
             @foreach($items as $item)
-            @if($item->categoryName == $category->name)
+            
+            @if($item->category->name == $category->name)
                 <div class="card card--{{ $item->quantity >= $item->quantity_jukebox ? 'success' : 'danger' }}" id="{{$item->slug}}"> 
 
                     <div class="card__image">
-                        <img src="{{ asset('images/category-interface/bouton-rond.jpg') }}" alt="categorie: {{$category->name}}, ressource: {{$item->itemName}}">
+                        <img src="{{ asset('images/category-interface/bouton-rond.jpg') }}" alt="categorie: {{$category->name}}, ressource: {{$item->name}}">
                     </div>
 
                     <div class="card__stock">
@@ -95,7 +96,7 @@
                     </div>
 
                     <div class="card__content">
-                        <p class="card__title">{{$item->itemName}}</p>
+                        <p class="card__title">{{$item->name}}</p>
                     </div>
 
                     <div class="card__actions">
@@ -143,7 +144,7 @@
                                         'id'     => 'destroyForm'
                                     ])
                                 !!}
-                                    <button class="dropdown-item bg-danger" type="submit" onclick="return confirm('Voulez-vous vraiment supprimer {{$item->itemName}} ?')">@icon('delete','icon-delete')</button>
+                                    <button class="dropdown-item bg-danger" type="submit" onclick="return confirm('Voulez-vous vraiment supprimer {{$item->name}} ?')">@icon('delete','icon-delete')</button>
                                 {!! Form::close() !!}
                             </div>
                         </div>
