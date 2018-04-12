@@ -9,15 +9,19 @@ use Illuminate\Support\Facades\Redirect;
 
 class ItemsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /*———————————————————————————————————*\
+                    INDEX
+    \*———————————————————————————————————/*
+        @type      [View]
+
+        @return    Display toutes les ressources trié par catégorie 
+
+        @location  /resources/views/Items/index.blade.php
+    */
     public function index() {
         /**
          *
-         *  @GET all resources
+         *  @return GET all resources
          *
          */
         $items = DB::table('jukesound_RES_items')
@@ -38,7 +42,7 @@ class ItemsController extends Controller
         ;
         /**
          *
-         *  @GET all categories
+         *  @return GET all categories
          *
          */
         $categories = DB::table('jukesound_RES_items')
@@ -50,7 +54,7 @@ class ItemsController extends Controller
         ;
         /**
          *
-         *  @FUNCTION nb Jukebox réalisable
+         *  @return Function nb Jukebox réalisable
          *
          */
         $nbJukeboxRealisable = 0;
@@ -70,30 +74,33 @@ class ItemsController extends Controller
                 break;
             }
         }
-
         /**
          *
-         *  @return all resources + all categories + nb jukebox réalisable
+         *  @return View resources + all categories + nb jukebox réalisable
          *
          *  @location views/Items/index.blade.php
          *
          */
         return view('items.index', [
-            'items' => $items,
-            'categories' => $categories,
+            'items'               => $items,
+            'categories'          => $categories,
             'nbJukeboxRealisable' => $nbJukeboxRealisable
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /*———————————————————————————————————*\
+                    CREATE
+    \*———————————————————————————————————/*
+        @type     [View]
+
+        @return   retourne la vue pour créer une ressource / categorie
+        
+        @location /resources/views/Items/create.blade.php
+    */
     public function create() {
         /**
          *
-         *  @GET all categories
+         *  @return GET all categories
          *
          */
         $categories = DB::table('jukesound_RES_categories')
@@ -101,52 +108,38 @@ class ItemsController extends Controller
             ->get()
         ;
         return view('items.create', [
-            //'items' => $items,
             'categories' => $categories
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request) {
-        $name             = $request->input('name');
-        $image            = $request->input('image');
-        $quantity_jukebox = $request->input('quantity_jukebox');
-        $quantity_buy     = $request->input('quantity_buy');
-        $url              = $request->input('url');
-        $category         = $request->input('inputCategory');
+    /*———————————————————————————————————*\
+                    SHOW
+    \*———————————————————————————————————/*
+        @type     [View]
 
-        echo '<pre>';
-        var_dump($request->input());
-        echo '</pre>';
+        @return   Display the specified resource
 
-        // $items->save();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Items  $items
-     * @return \Illuminate\Http\Response
-     */
+        @location /resources/views/Items/show.blade.php
+    */
     public function show(Items $items) {
         //
     }
+    
+    /*———————————————————————————————————*\
+                    EDIT
+    \*———————————————————————————————————/*
+        @type     [View]
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Items  $items
-     * @return \Illuminate\Http\Response
-     */
+        @params   $id ID de l'item
+
+        @return   Show the form for editing the specified resource
+
+        @location /resources/views/Items/edit.blade.php
+    */
     public function edit($id) {
         /**
          *
-         *  @GET resources by id
+         *  @return GET resources by id
          *
          */
         $item = DB::table('jukesound_RES_items')
@@ -168,20 +161,66 @@ class ItemsController extends Controller
         ;
         /**
          *
-         *  @GET all categories
+         *  @return GET all categories
          *
          */
         $categories = DB::table('jukesound_RES_categories')
             ->select('jukesound_RES_categories.name')
             ->get()
         ;
+
+
+        /**
+         *  @return View
+         */
         return view('items.edit', [
-            'item' => $item[0],
+            'item'       => $item[0],
             'categories' => $categories
         ]);
     }
 
+    /*———————————————————————————————————*\
+                    STORE
+    \*———————————————————————————————————/*
+        @type   [Create]
+        
+        @params $request get data from forms
+
+        @return Stock un nouvel items dans la BDD
+    */
+    public function store(Request $request) {
+        $name             = $request->input('name');
+        $image            = $request->input('image');
+        $quantity_jukebox = $request->input('quantity_jukebox');
+        $quantity_buy     = $request->input('quantity_buy');
+        $url              = $request->input('url');
+        $category         = $request->input('inputCategory');
+
+        echo '<pre>';
+        var_dump($request->input());
+        echo '</pre>';
+
+        // $items->save();
+    }
+
+    /*———————————————————————————————————*\
+                    INCREMENT
+    \*———————————————————————————————————/*
+        @type     [Update]
+        
+        @params   $id      ID de l'item
+        @params   $request get data from forms
+
+        @return   Incrémente la quantité de stock de l'item
+
+        @redirect items.index
+    */
     public function increment($id, Request $request) {
+        /**
+         *
+         *  @return UPDATE increment item
+         *
+         */
         DB::table('jukesound_RES_items')
             ->where('jukesound_RES_items.id', $id)
             ->increment('quantity', $request->input('nbAdd'));
@@ -189,7 +228,24 @@ class ItemsController extends Controller
         return redirect::route('items.index');
     }
 
+    /*———————————————————————————————————*\
+                    DECREMENT
+    \*———————————————————————————————————/*
+        @type     [Update]
+        
+        @params   $id      ID de l'item
+        @params   $request get data from forms
+
+        @return   Décremente la quantité de stock de l'item
+
+        @redirect items.index
+    */
     public function decrement($id, Request $request) {
+        /**
+         *
+         *  @return UPDATE decrement item
+         *
+         */
         DB::table('jukesound_RES_items')
             ->where('jukesound_RES_items.id', $id)
             ->decrement('quantity', $request->input('nbRemove'));
@@ -197,10 +253,33 @@ class ItemsController extends Controller
         return redirect::route('items.index');
     }
 
+    /*———————————————————————————————————*\
+                    UPDATE
+    \*———————————————————————————————————/*
+        @type     [Update]
+        
+        @params $request get data from forms
+
+        @return Update the specified resource in storage
+    */
+    public function update(Request $request, Items $items) {
+    }
+
+    /*———————————————————————————————————*\
+                    MAKEJUKEBOX
+    \*———————————————————————————————————/*
+        @type     [Delete]
+        
+        @params   $request get data from forms
+
+        @return   Incrémente la quantité de stock de tous les items
+
+        @redirect items.index
+    */
     public function makeJukebox(Request $request) {
         /**
          *
-         *  @GET all resources
+         *  @return GET all resources
          *
          */
         $items = DB::table('jukesound_RES_items')
@@ -213,7 +292,7 @@ class ItemsController extends Controller
         ;
         /**
          *
-         *  @DELETE decrement all ressources
+         *  @return DELETE decrement all ressources
          *
          */
         foreach ($items as $k => $item) {
@@ -227,46 +306,59 @@ class ItemsController extends Controller
         return redirect::route('items.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Items  $items
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Items $items) {
-    }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Items  $items
-     * @return \Illuminate\Http\Response
-     */
+    /*———————————————————————————————————*\
+                    DESTROY
+    \*———————————————————————————————————/*
+        @type     [Delete]
+        
+        @params   $id      ID de l'item
+
+        @return   Supprime de la table l'item
+        @return   Supprime la catégorie de l'item si il n'y a plus d'item dans la catégorie
+        
+        @redirect items.index
+    */
     public function destroy($id) {
+        /**
+         * @return DELETE Supprime de la table l'item
+         */
+        DB::table('jukesound_RES_items')
+            ->where('id', $id)
+            ->delete();
+
+
+        /**
+         * @return id Selectionee l'id de la catégorie de l'article que l'on veut supprimer 
+         */
         $items = DB::table('jukesound_RES_items')
             ->select('jukesound_RES_items.id_category')
             ->where('id', $id)
             ->limit(1)
             ->get();
 
+
+        /**
+         * @return Number Nombre de même catégorie 
+         */
         $nbSameCategory = sizeof(
             DB::table('jukesound_RES_items')
-            ->select('jukesound_RES_items.id')
-            ->where('id_category', $items[0]->id_category)
-            ->get()
+                ->select('jukesound_RES_items.id')
+                ->where('id_category', $items[0]->id_category)
+                ->get()
         );
 
-        DB::table('jukesound_RES_items')
-            ->where('id', $id)
-            ->delete();
 
+        /**
+         * Si il n'y a plus d'item dans la catégorie
+         */
         if ($nbSameCategory === 1) {
+            /**
+             * @return DELETE Supprime la catégorie de l'item
+             */
             DB::table('jukesound_RES_categories')
                 ->where('id', $items[0]->id_category)
                 ->delete();
         }
-
-
         return redirect::route('items.index');
     }
 }

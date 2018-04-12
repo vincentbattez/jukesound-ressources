@@ -1,6 +1,17 @@
 /*------------------------------------*\
     $ ADD RESSOURCE
 \*------------------------------------*/
+/**
+ * Ajouter le necessaire dans le DOM pour ajouter une nouvelle ressource
+ * 
+ * @param {Number} count ID de la nouvelle ressource
+ * 
+ * @example
+ * let count = 2;
+ * $('@buttonTrigger').on('click', function (e) {
+ *  addRessource(count++);
+ * }
+ */
 export function addRessource(count) {
   let ressource = $('.js-ressource:first-child').clone();
 
@@ -30,10 +41,19 @@ export function addRessource(count) {
 export function addCategory() {
 
 }
-
 /*------------------------------------*\
     $ REMOVE
 \*------------------------------------*/
+/**
+ * Supprime du DOM une ligne pour ajouter une nouvelle ressource
+ * 
+ * @param {String} el Trigger element
+ * 
+ * @example
+ * $('@buttonTrigger').on('click', function (e) {
+ *  removeForm(this);
+ * }
+ */
 export function removeForm(el) {
   if ($('#ressource-container .ressource').length > 1) {
     let target = $(el).data('target');
@@ -44,6 +64,9 @@ export function removeForm(el) {
 /*------------------------------------*\
     $ HTML BTN REMOVE
 \*------------------------------------*/
+/**
+ * Génère le boutton pour pouvoir supprimer du DOM une ligne pour ajouter une nouvelle ressource
+ */
 export function htmlBtnRemove() {
   /* - - - - - - - - - - - - *\
       $ RESSOURCE

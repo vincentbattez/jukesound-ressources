@@ -12,7 +12,7 @@
     * @var $item->slug             @type String    @mean Slug of resource
     * @var $item->quantity         @type Number    @mean Quantity dispo
     * @var $item->quantity_jukebox @type Number    @mean Quantity for 1 jukebox
-    * @var $item->quantity_buy   @type Number    @mean Quantity for 1 achat
+    * @var $item->quantity_buy     @type Number    @mean Quantity for 1 achat
     * @var $item->url              @type String    @mean Url for buy ressource
     * @var $item->image            @type String    @mean path image of ressource
     */

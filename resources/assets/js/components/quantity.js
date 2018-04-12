@@ -2,6 +2,17 @@ import { notification } from '../components/alerts';
 /*------------------------------------*\
     $ increment
 \*------------------------------------*/
+/**
+ * Execute la function php agissant sur le BDD et change le DOM en conséquent
+ * 
+ * @param {String} el Element trigger
+ * 
+ * @example 
+ * $('#buttonTrigger').on('click', function(e) {
+ *    ajaxAction(this);
+ * }
+ * 
+ */
 export function ajaxAction(el) {
   // VARIABLES
   let $el                = $(el);
@@ -13,7 +24,7 @@ export function ajaxAction(el) {
   let quantityJukebox    = parseInt($card.find('.stock__quantity-jukebox').text());
   let $nbJukebox         = $('.display-1');
   let $maxMake           = $('#nbMakeJukebox');
-  let oldMakeValue       = $('#nbMakeJukebox').val();
+  let oldMakeValue       = $maxMake.val();
   let $submitMaxMake     = $('#productionForm [type=submit]');
   let $decrementSubmit   = $card.find('#decrementForm [type=submit]');
   let $decrementNumber   = $card.find('#decrementForm [type=number]');
