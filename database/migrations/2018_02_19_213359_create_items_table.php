@@ -13,13 +13,20 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('jukesound_RES_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_category')->unique();
+
+            $table->unsignedInteger('id_category');
+            $table->foreign('id_category')->references('id')->on('jukesound_RES_categories');
+            
             $table->string('name');
+            $table->string('slug');
             $table->integer('quantity');
             $table->integer('quantity_jukebox');
+            $table->integer('quantity_buy');
             $table->string('url');
+            $table->string('image');
+            
             $table->timestamps();
         });
     }
@@ -31,6 +38,6 @@ class CreateItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('jukesound_RES_items');
     }
 }

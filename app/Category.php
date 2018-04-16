@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $table      = "jukesound_RES_categories";
-    public    $timestamps = false;
+    protected $fillable = [
+        'name',
+        'slug',
+    ];
 
     public function item() {
         return $this->hasMany("App\Item", "id_category");

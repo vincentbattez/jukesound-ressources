@@ -28,15 +28,15 @@
 @section('content')
     <section class="container">
         <h2 class="h2">Ajouter une ou plusieurs ressources</h2>
-        <form action="./create.blade.php" method="post">
-
+        <form action="/upload/item/image" method="POST" enctype="multipart/form-data">
+            {{ csrf_field() }}
             <article class="js-category" id="category1">
                 {{--  Category  --}}
                 <div class="form-row align-items-center" id="category-container">
                     <div class="form-group">
                         <label for="selectCategory">Catégorie de la ressource</label>
                         <div class="title-category">
-                            <input list="categoriesData" name="inputCategory" class="form-control" placeholder="Interfaces" required>
+                            <input list="categoriesData" name="inputCategory" class="form-control" placeholder="Interfaces">
                             <datalist id="categoriesData">
                                 <label for="selectCategory" class="form-control">ou sélectionner dans la liste</label>
                                 <select name="selectCategory" id="selectCategory">
@@ -55,29 +55,29 @@
                             <div class="file-container">
                                 {{--  FILE  --}}
                                 <label class="" for="image1">Image</label>
-                                <input type="file" name="image[]" id="image1" required>
+                                <input type="file" name="image[]" id="image1">
                                 <label class="input-file" for="image1"></label>
                             </div>
                         </div>
                         <div class="form-group">
                             {{--  NOM  --}}
                             <label for="name1">Nom de la ressource</label>
-                            <input type="text" id="name1" class="form-control" name="name[]" placeholder="Bouton poussoir" required>
+                            <input type="text" id="name1" class="form-control" name="name[]" placeholder="Bouton poussoir">
                         </div>
                         <div class="form-group">
                             {{--  MAKE  --}}
                             <label for="make1">Quantité pour fabriquer un Jukebox</label>
-                            <input type="number" id="make1" class="form-control" name="make[]" placeholder="8" required min="1">
+                            <input type="number" id="make1" class="form-control" name="make[]" placeholder="8" min="1">
                         </div>
                         <div class="form-group">
                             {{--  ACHAT  --}}
                             <label for="buy1">Quantité lors d'un achat</label>
-                            <input type="number" id="buy1" class="form-control" name="buy[]" placeholder="50" required min="1">
+                            <input type="number" id="buy1" class="form-control" name="buy[]" placeholder="50" min="1">
                         </div>
                         <div class="form-group">
                             {{--  LIEN  --}}
                             <label for="link1">Lien achat</label>
-                            <input type="url" id="link1" class="form-control" name="link[]" placeholder="https://amazon.fr" required>
+                            <input type="url" id="link1" class="form-control" name="link[]" placeholder="https://amazon.fr">
                         </div>
                     </div>
                     <button class="btn-add-ressource d-flex js-addForm">

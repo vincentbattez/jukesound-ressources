@@ -28,8 +28,11 @@ $width-dropdown: 67px;
   &__image {
     width:  $true-height;
     height: 100%;
+
     img {
       height: 100%;
+      width: 100%;
+      object-fit: cover;
     }
   }
 
@@ -173,7 +176,7 @@ $width-dropdown: 67px;
     $ CATEGORY
 \*------------------------------------*/
 .section-category {
-  margin-bottom: 20px;
+  margin-bottom: 80px;
 }
 
 .title-category {

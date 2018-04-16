@@ -6,7 +6,7 @@
  * @param {string} message 'message par defaut'
  * @param {string} color   'info'
  * @param {string} id      'defaultNotif'
- * @param {number} time    2000
+ * @param {number} time     2000
  */
 export function notification(message = 'message par defaut', color = 'info', id = 'defaultNotif', time = 2000) {
   let templateAlert = `

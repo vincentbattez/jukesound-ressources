@@ -7,7 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     protected $table      = "jukesound_RES_items";
-    public    $timestamps = false;
+    protected $fillable = [
+        'id_category',
+        'name',
+        'slug',
+        'quantity',
+        'quantity_jukebox',
+        'quantity_buy',
+        'url',
+        'image',
+    ];
     public function category() {
         return $this->belongsTo("App\Category", "id_category");
         /*

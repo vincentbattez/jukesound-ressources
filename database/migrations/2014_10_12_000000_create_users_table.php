@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriesTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('jukesound_RES_categories', function (Blueprint $table) {
-            $table->increments('id');
-            
-            $table->string('name');
-            $table->string('slug');
+        Schema::create('jukesound_RES_users', function (Blueprint $table) {
+            Schema::dropIfExists('jukesound_RES_users');
+            Schema::defaultStringLength(191);
 
+            $table->increments('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jukesound_RES_categories');
+        Schema::dropIfExists('jukesound_RES_users');
     }
 }

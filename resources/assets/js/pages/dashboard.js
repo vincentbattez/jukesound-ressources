@@ -2,6 +2,7 @@
     $ IMPORTS
 \*------------------------------------*/
 import * as quantity from '../components/quantity';
+import * as ressource from '../components/deleteRessource';
 
 export default {
   init() {
@@ -16,7 +17,6 @@ export default {
       $decrementSubmit.attr('disabled', ($card.hasClass('card--danger')) ? true : false)
 
     });
-
   },
   finalize() {
     $('#incrementForm, #decrementForm, #productionForm').on('click', '[type=submit]', function(e) {
@@ -32,6 +32,11 @@ export default {
         e.preventDefault(); 
         quantity.ajaxAction(this);
       }
+    });
+
+    $('#deleteRessource').on('click', function (e) { 
+      e.preventDefault();
+      ressource.ajaxDelete(this);
     });
   },
 };

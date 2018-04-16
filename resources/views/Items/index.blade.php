@@ -5,21 +5,23 @@
     * @var $categories           @type [{}]      @mean All categories
     * @var $category->name       @type String    @mean Name of category
     *
-    * @var $items                  @type [{}]      @mean All resources
-    * @var $item->id               @type Number    @mean id of resource
-    * @var $item->categoryName     @type String    @mean Name of category
-    * @var $item->name         @type String    @mean Name of resource
-    * @var $item->slug             @type String    @mean Slug of resource
-    * @var $item->quantity         @type Number    @mean Quantity dispo
-    * @var $item->quantity_jukebox @type Number    @mean Quantity for 1 jukebox
-    * @var $item->quantity_buy     @type Number    @mean Quantity for 1 achat
-    * @var $item->url              @type String    @mean Url for buy ressource
-    * @var $item->image            @type String    @mean path image of ressource
+    * @var $items                        @type [{}]      @mean All resources
+    * @var $item->id                     @type Number    @mean id of resource
+    * @var $item->name                   @type String    @mean Name of resource
+    * @var $item->slug                   @type String    @mean Slug of resource
+    * @var $item->quantity               @type Number    @mean Quantity dispo
+    * @var $item->quantity_jukebox       @type Number    @mean Quantity for 1 jukebox
+    * @var $item->quantity_buy           @type Number    @mean Quantity for 1 achat
+    * @var $item->url                    @type String    @mean Url for buy ressource
+    * @var $item->image                  @type String    @mean path image of ressource
+    *
+    * @var $item->item->category->name   @type String    @mean Name of category
+    * @var $item->item->category->name   @type String    @mean Name of category
     */
 
     $currentPage = [
         'title' => 'Liste des ressources - Jukesound Ressource',
-        'bodyClass' => 'dashboard'
+        'bodyClass' => 'items'
     ];
 ?>
 @extends('layouts.app')
@@ -78,79 +80,78 @@
         </button>
         <div class="list-card collapse show" id="collapse{{$category->name}}">
             @foreach($items as $item)
-            
-            @if($item->category->name == $category->name)
-                <div class="card card--{{ $item->quantity >= $item->quantity_jukebox ? 'success' : 'danger' }}" id="{{$item->slug}}"> 
+                @if($item->category->name == $category->name)
+                    <div class="card card--{{ $item->quantity >= $item->quantity_jukebox ? 'success' : 'danger' }}" id="{{$item->slug}}"> 
 
-                    <div class="card__image">
-                        <img src="{{ asset('images/category-interface/bouton-rond.jpg') }}" alt="categorie: {{$category->name}}, ressource: {{$item->name}}">
-                    </div>
+                        <div class="card__image">
+                            <img src="{{ asset($item->image) }}" alt="image de la ressource {{$item->name}}">
+                        </div>
 
-                    <div class="card__stock">
-                        @icon('stock','icon-stock')
-                        <p class="stock">
-                            <span class="stock__value">{{$item->quantity}}</span>
-                            /
-                            <span class="stock__quantity-jukebox">{{$item->quantity_jukebox}}</span>
-                        </p>
-                    </div>
+                        <div class="card__stock">
+                            @icon('stock','icon-stock')
+                            <p class="stock">
+                                <span class="stock__value">{{$item->quantity}}</span>
+                                /
+                                <span class="stock__quantity-jukebox">{{$item->quantity_jukebox}}</span>
+                            </p>
+                        </div>
 
-                    <div class="card__content">
-                        <p class="card__title">{{$item->name}}</p>
-                    </div>
+                        <div class="card__content">
+                            <p class="card__title">{{$item->name}}</p>
+                        </div>
 
-                    <div class="card__actions">
-                        {!! Form::model($items, [
-                                'route'  => ['items.increment', $item->id], 
-                                'action' => 'ItemsController@increment',
-                                'class'  => 'form-inline',
-                                'method' => 'PUT',
-                                'id'     => 'incrementForm'
-                            ])
-                        !!}
-                            <div class="form-group input-btn">
-                                {!! Form::number('nbAdd', $item->quantity_buy, ['class' => 'form-control', 'required', 'min' => '1']) !!}
-                                {!! Form::button('Ajouter', ['class' => 'btn btn-success', 'id' => 'incrementSubmit', 'type' => 'submit']) !!}
-                            </div>
-                        {!! Form::close() !!}
-                        
-                        {!! Form::model($items, [
-                                'route'  => ['items.decrement', $item->id], 
-                                'action' => 'ItemsController@decrement',
-                                'class'  => 'form-inline',
-                                'method' => 'PUT',
-                                'id'     => 'decrementForm'
-                            ])
-                        !!}
-                            <div class="form-group input-btn">
-                                {!! Form::number('nbRemove', $item->quantity_jukebox, ['class' => 'form-control', 'required', 'min' => '1', 'max' => $item->quantity]) !!}
-                                {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'id' => 'decrementSubmit', 'type' => 'submit']) !!}
-                            </div>
-                        {!! Form::close() !!}
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @icon('more','icon-more')
-                            </button>
-                            {{--  MENU DROPDOWN  --}}
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ route('items.edit', $item->id) }}">@icon('edit','icon-edit')</a>
-                                <a class="dropdown-item" target="_blank" href="{{$item->url}}">@icon('shop','icon-shop')</a>
+                        <div class="card__actions">
+                            {!! Form::model($items, [
+                                    'route'  => ['items.increment', $item->id], 
+                                    'action' => 'ItemsController@increment',
+                                    'class'  => 'form-inline',
+                                    'method' => 'PUT',
+                                    'id'     => 'incrementForm'
+                                ])
+                            !!}
+                                <div class="form-group input-btn">
+                                    {!! Form::number('nbAdd', $item->quantity_buy, ['class' => 'form-control', 'required', 'min' => '1']) !!}
+                                    {!! Form::button('Ajouter', ['class' => 'btn btn-success', 'id' => 'incrementSubmit', 'type' => 'submit']) !!}
+                                </div>
+                            {!! Form::close() !!}
+                            
+                            {!! Form::model($items, [
+                                    'route'  => ['items.decrement', $item->id], 
+                                    'action' => 'ItemsController@decrement',
+                                    'class'  => 'form-inline',
+                                    'method' => 'PUT',
+                                    'id'     => 'decrementForm'
+                                ])
+                            !!}
+                                <div class="form-group input-btn">
+                                    {!! Form::number('nbRemove', $item->quantity_jukebox, ['class' => 'form-control', 'required', 'min' => '1', 'max' => $item->quantity]) !!}
+                                    {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'id' => 'decrementSubmit', 'type' => 'submit']) !!}
+                                </div>
+                            {!! Form::close() !!}
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @icon('more','icon-more')
+                                </button>
+                                {{--  MENU DROPDOWN  --}}
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ route('items.edit', $item->id) }}">@icon('edit','icon-edit')</a>
+                                    <a class="dropdown-item" target="_blank" href="{{$item->url}}">@icon('shop','icon-shop')</a>
 
 
-                                {!! Form::model($items, [
-                                        'route'  => ['items.destroy', $item->id], 
-                                        'action' => 'ItemsController@destroy',
-                                        'method' => 'DELETE',
-                                        'id'     => 'destroyForm'
-                                    ])
-                                !!}
-                                    <button class="dropdown-item bg-danger" type="submit" onclick="return confirm('Voulez-vous vraiment supprimer {{$item->name}} ?')">@icon('delete','icon-delete')</button>
-                                {!! Form::close() !!}
+                                    {!! Form::model($items, [
+                                            'route'  => ['items.destroy', $item->id], 
+                                            'action' => 'ItemsController@destroy',
+                                            'method' => 'DELETE',
+                                            'id'     => 'destroyForm'
+                                        ])
+                                    !!}
+                                        <button class="dropdown-item bg-danger" type="submit" id="deleteRessource" onclick="return confirm('Voulez-vous vraiment supprimer {{$item->name}} ?')">@icon('delete','icon-delete')</button>
+                                    {!! Form::close() !!}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
+                @endif
             @endforeach
         </div>
     </section>

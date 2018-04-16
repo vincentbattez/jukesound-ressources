@@ -7,6 +7,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\File;
 
 class ItemsController extends Controller
 {
@@ -66,6 +67,7 @@ class ItemsController extends Controller
         @return   retourne la vue pour créer une ressource / categorie
         
         @location /resources/views/Items/create.blade.php
+
     */
     public function create() {
         /**
@@ -285,20 +287,12 @@ class ItemsController extends Controller
         
         @params   $id      ID de l'item
 
-        @return   Supprime de la table l'item
-        @return   Supprime la catégorie de l'item si il n'y a plus d'item dans la catégorie
+        @return   Supprime de la table l'item & l'image assosié
+        @return   Supprime la catégorie de l'item si il n'y a plus d'item dans la catégorie & le dossier image assosié
         
         @redirect items.index
     */
     public function destroy($id) {
-        /**
-         * @return DELETE Supprime de la table l'item
-         */
-        DB::table('jukesound_RES_items')
-            ->where('id', $id)
-            ->delete();
-
-
         /**
          * @return id Selectionee l'id de la catégorie de l'article que l'on veut supprimer 
          */
@@ -307,7 +301,6 @@ class ItemsController extends Controller
             ->where('id', $id)
             ->limit(1)
             ->get();
-
 
         /**
          * @return Number Nombre de même catégorie 
@@ -319,7 +312,14 @@ class ItemsController extends Controller
                 ->get()
         );
 
+        $folder = 'images/'.Item::first()->category->name;
+        $image  = Item::whereId($id)->first()->image;
 
+        /**
+         * @return DELETE Supprime de la table l'item et l'image
+         */
+        Item::whereId($id)->delete();
+        File::delete($image);
         /**
          * Si il n'y a plus d'item dans la catégorie
          */
@@ -330,6 +330,7 @@ class ItemsController extends Controller
             DB::table('jukesound_RES_categories')
                 ->where('id', $items[0]->id_category)
                 ->delete();
+            File::deleteDirectory($folder);
         }
         return redirect::route('items.index');
     }

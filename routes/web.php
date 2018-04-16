@@ -14,7 +14,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Item DASHBOARD
+| Item
 |--------------------------------------------------------------------------
 */
 Route::resource ('items', 'ItemsController');
@@ -23,5 +23,18 @@ Route::put      ('items/decrement/{item}', 'ItemsController@decrement'  )->name(
 Route::post     ('items/makeJukebox',      'ItemsController@makeJukebox')->name('items.makeJukebox');
 
 Route::get('/', function() {
-    return redirect('/items');
+    return redirect('items.index');
 });
+
+
+/*———————————————————————————————————*\
+    $ UPLOAD
+\*———————————————————————————————————*/
+Route::post('upload/item/image', 'UploadController@imageItem')
+    ->name('upload.imageItem')
+;
+
+/*———————————————————————————————————*\
+        $ AUTH
+\*———————————————————————————————————*/
+Auth::routes();
