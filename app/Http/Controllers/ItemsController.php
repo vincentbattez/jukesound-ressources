@@ -20,9 +20,9 @@ class ItemsController extends Controller
 
         @location  /resources/views/Items/index.blade.php
     */
-    public function index(Item $items, Category $categories) {
-        $items      = $items::all();      // @return GET all resources
-        $categories = $categories::all(); // @return GET all categories
+    public function index() {
+        $items      = Item::all();     // @return GET all resources
+        $categories = Category::all(); // @return GET all categories
         /**
          *
          *  @return Function nb Jukebox réalisable
@@ -75,28 +75,13 @@ class ItemsController extends Controller
          *  @return GET all categories
          *
          */
-        $categories = DB::table('jukesound_RES_categories')
-            ->select('jukesound_RES_categories.name')
-            ->get()
-        ;
+        $categories = Category::all(); // @return GET all categories
+        
         return view('items.create', [
             'categories' => $categories
         ]);
     }
 
-    /*———————————————————————————————————*\
-                    SHOW
-    \*———————————————————————————————————/*
-        @type     [View]
-
-        @return   Display the specified resource
-
-        @location /resources/views/Items/show.blade.php
-    */
-    public function show(Item $items) {
-        //
-    }
-    
     /*———————————————————————————————————*\
                     EDIT
     \*———————————————————————————————————/*
@@ -114,39 +99,18 @@ class ItemsController extends Controller
          *  @return GET resources by id
          *
          */
-        $item = DB::table('jukesound_RES_items')
-            ->join('jukesound_RES_categories', 'jukesound_RES_categories.id', '=', 'jukesound_RES_items.id_category')
-            ->select(
-                'jukesound_RES_categories.name as categoryName',
-                'jukesound_RES_items.name as itemName',
-                'jukesound_RES_items.slug',
-                'jukesound_RES_items.quantity',
-                'jukesound_RES_items.quantity_jukebox',
-                'jukesound_RES_items.quantity_buy',
-                'jukesound_RES_items.url',
-                'jukesound_RES_items.image',
-                'jukesound_RES_items.id'
-            )
-            ->where('jukesound_RES_items.id', $id)
-            ->limit(1)
-            ->get()
-        ;
+        $item = Item::findOrFail($id); // @return GET all categories
         /**
          *
          *  @return GET all categories
          *
          */
-        $categories = DB::table('jukesound_RES_categories')
-            ->select('jukesound_RES_categories.name')
-            ->get()
-        ;
-
-
+        $categories = Category::all(); // @return GET all categories
         /**
          *  @return View
          */
         return view('items.edit', [
-            'item'       => $item[0],
+            'item'       => $item,
             'categories' => $categories
         ]);
     }
@@ -195,10 +159,8 @@ class ItemsController extends Controller
          *  @return UPDATE increment item
          *
          */
-        DB::table('jukesound_RES_items')
-            ->where('jukesound_RES_items.id', $id)
-            ->increment('quantity', $request->input('nbAdd'));
-            
+        Item::find($id)->increment('quantity', $request->input('nbAdd'));
+        
         return redirect::route('items.index');
     }
 
@@ -220,10 +182,8 @@ class ItemsController extends Controller
          *  @return UPDATE decrement item
          *
          */
-        DB::table('jukesound_RES_items')
-            ->where('jukesound_RES_items.id', $id)
-            ->decrement('quantity', $request->input('nbRemove'));
-            
+        Item::find($id)->decrement('quantity', $request->input('nbRemove'));
+        
         return redirect::route('items.index');
     }
 
@@ -256,14 +216,7 @@ class ItemsController extends Controller
          *  @return GET all resources
          *
          */
-        $items = DB::table('jukesound_RES_items')
-            ->select(
-                'jukesound_RES_items.id',
-                'jukesound_RES_items.quantity',
-                'jukesound_RES_items.quantity_jukebox'
-            )
-            ->get()
-        ;
+        $items = Item::all();
         /**
          *
          *  @return DELETE decrement all ressources
@@ -271,12 +224,8 @@ class ItemsController extends Controller
          */
         foreach ($items as $k => $item) {
             $nbRemove = $item->quantity_jukebox * $request->input('nbMakeJukebox');
-
-            DB::table('jukesound_RES_items')
-                ->where('jukesound_RES_items.id', $item->id)
-                ->decrement('quantity', $nbRemove);
+            Item::find($item->id)->decrement('quantity', $nbRemove);
         }
-            
         return redirect::route('items.index');
     }
 
@@ -296,21 +245,12 @@ class ItemsController extends Controller
         /**
          * @return id Selectionee l'id de la catégorie de l'article que l'on veut supprimer 
          */
-        $items = DB::table('jukesound_RES_items')
-            ->select('jukesound_RES_items.id_category')
-            ->where('id', $id)
-            ->limit(1)
-            ->get();
-
+        $items = Item::select('id_category')->whereId($id)->get();
+        $id_category = $items[0]->id_category;
         /**
          * @return Number Nombre de même catégorie 
          */
-        $nbSameCategory = sizeof(
-            DB::table('jukesound_RES_items')
-                ->select('jukesound_RES_items.id')
-                ->where('id_category', $items[0]->id_category)
-                ->get()
-        );
+        $nbSameCategory = Item::whereId_category($id_category)->count();
 
         $folder = 'images/'.Item::first()->category->name;
         $image  = Item::whereId($id)->first()->image;
@@ -327,9 +267,7 @@ class ItemsController extends Controller
             /**
              * @return DELETE Supprime la catégorie de l'item
              */
-            DB::table('jukesound_RES_categories')
-                ->where('id', $items[0]->id_category)
-                ->delete();
+            Category::whereId($id_category)->delete();
             File::deleteDirectory($folder);
         }
         return redirect::route('items.index');

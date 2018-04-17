@@ -10,7 +10,7 @@ import './lib/unelib';
 import Router from './util/Router';
 import common from './common';
 // PAGES
-import dashboard from './pages/dashboard';
+import items from './pages/items';
 import create from './pages/create';
 
 /*------------------------------------*\
@@ -20,7 +20,7 @@ const routes = new Router({
   // Commun
   common,
   // PAGES
-  dashboard,
+  items,
   create
 });
 // Load Events

@@ -30,6 +30,6 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jukesound_RES');
+        Schema::dropIfExists('jukesound_RES_password_resets');
     }
 }

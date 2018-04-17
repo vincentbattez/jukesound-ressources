@@ -1,3 +1,4 @@
+console.log('items');
 /*------------------------------------*\
     $ IMPORTS
 \*------------------------------------*/
@@ -6,6 +7,7 @@ import * as ressource from '../components/deleteRessource';
 
 export default {
   init() {
+    console.log('fifi');
     $('#productionForm [type=submit]').attr('disabled', ($('#productionForm input[type=number]').attr('max') == 0) ? true : false); // Disabled or not btn "lancer la fabrication" when maxMake = 0
     $('#productionForm [type=number]').attr('disabled', ($('#productionForm input[type=number]').attr('max') == 0) ? true : false); // Disabled or not btn "lancer la fabrication" when maxMake = 0
     $('[id=decrementForm]').each(function (i, e) {
@@ -18,7 +20,10 @@ export default {
 
     });
   },
+
   finalize() {
+
+    
     $('#incrementForm, #decrementForm, #productionForm').on('click', '[type=submit]', function(e) {
       let stockValue       = parseInt($(this).parents('.card').find('.stock__value').text());
       let inputNumberValue = parseInt($(this).parents('.form-inline').find('[type=number]').val());
@@ -34,9 +39,11 @@ export default {
       }
     });
 
-    $('#deleteRessource').on('click', function (e) { 
+    $('.destroyForm').on('click', '[type=submit]', function (e) {
       e.preventDefault();
       ressource.ajaxDelete(this);
     });
+
+
   },
 };

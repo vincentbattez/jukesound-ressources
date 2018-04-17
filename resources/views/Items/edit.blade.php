@@ -6,8 +6,8 @@
     * @var $category->name       @type String    @mean Name of category
     *
     * @var $item->id               @type Number    @mean id of resource
-    * @var $item->categoryName     @type String    @mean Name of category
-    * @var $item->itemName         @type String    @mean Name of resource
+    * @var $item->category->name   @type String    @mean Name of category
+    * @var $item->name             @type String    @mean Name of resource
     * @var $item->slug             @type String    @mean Slug of resource
     * @var $item->quantity         @type Number    @mean Quantity dispo
     * @var $item->quantity_jukebox @type Number    @mean Quantity for 1 jukebox
@@ -16,7 +16,7 @@
     * @var $item->image            @type String    @mean path image of ressource
     */
     $currentPage = [
-        'title' => 'Modifier "'. $item->itemName .'" - Jukesound Ressource',
+        'title' => 'Modifier "'. $item->name .'" - Jukesound Ressource',
         'bodyClass' => 'edit'
     ];
 ?>
@@ -28,7 +28,7 @@
 @section('main-header')
 <div class="header--bg header" style="background-image:url({{ asset('images/bg-header-create.jpg') }});">
     <div class="container">
-        <h1 class="h1"><span class="bar-bg-title">Éditer "{{$item->itemName}}"</span></h1>
+        <h1 class="h1"><span class="bar-bg-title">Éditer "{{$item->name}}"</span></h1>
     </div>
 </div>
 @endsection
@@ -37,7 +37,7 @@
 ----------------}}
 @section('content')
     <section class="container">
-        <h2 class="h2">Modifier les informations de "{{$item->itemName}}"</h2>
+        <h2 class="h2">Modifier les informations de "{{$item->name}}"</h2>
         {!! Form::model($item->id, [
                 'route'  => ['items.store'], 
                 'action' => 'ItemsController@store',
@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label for="selectCategory">Catégorie de la ressource</label>
                         <div class="title-category">
-                            {!! Form::text('inputCategory', $item->categoryName, [
+                            {!! Form::text('inputCategory', $item->category->name, [
                                 'list' => 'categoriesData',
                                 'class' => 'form-control',
                                 'placeholder' => 'Interfaces',
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             {{--  NOM  --}}
                             <label for="name">Nom de la ressource</label>
-                            {!! Form::text('name', $item->itemName, ['class' => 'form-control', 'placeholder' => 'Bouton poussoir', 'required']) !!}
+                            {!! Form::text('name', $item->name, ['class' => 'form-control', 'placeholder' => 'Bouton poussoir', 'required']) !!}
                         </div>
                         <div class="form-group">
                             {{--  MAKE  --}}

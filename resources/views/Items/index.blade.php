@@ -142,10 +142,11 @@
                                             'route'  => ['items.destroy', $item->id], 
                                             'action' => 'ItemsController@destroy',
                                             'method' => 'DELETE',
-                                            'id'     => 'destroyForm'
+                                            'id'     => 'destroyForm',
+                                            'class'  => 'destroyForm'
                                         ])
                                     !!}
-                                        <button class="dropdown-item bg-danger" type="submit" id="deleteRessource" onclick="return confirm('Voulez-vous vraiment supprimer {{$item->name}} ?')">@icon('delete','icon-delete')</button>
+                                        <button class="dropdown-item bg-danger deleteRessource" type="submit" onclick="return confirm('Voulez-vous vraiment supprimer {{$item->name}} ?')">@icon('delete','icon-delete')</button>
                                     {!! Form::close() !!}
                                 </div>
                             </div>

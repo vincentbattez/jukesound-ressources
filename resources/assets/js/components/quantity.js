@@ -102,7 +102,7 @@ export function ajaxAction(el) {
             /**/ $($('.stock__value')[i]).text(newStockValue);                   // Stock value
             /**/ $decrementNumber.attr('max', newStockValue);                    // change max value of decrement input for decrement input
           }); // Fin each
-          notification(message, 'warning', 'makeNotif', 10000);                   // Notification
+          notification(message, 'warning', 'makeNotif', 6000);                   // Notification
         }else {
           /* - - - - - - - - - - - - - - - - -*\
               $ OTHER TRIGGER CLICK
@@ -122,7 +122,7 @@ export function ajaxAction(el) {
           /**/ $stockValue.text(newStockValue);                                // Stock value to new Stock Value
           /**/ $decrementNumber.attr('max', newStockValue);                    // change max decrement to newStockValue
           
-          notification(message, 'success', 'addRemoveNotif', 7000);            // Notification
+          notification(message, 'success', 'addRemoveNotif', 4000);            // Notification
         }
       },
 

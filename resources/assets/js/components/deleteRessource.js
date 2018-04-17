@@ -11,8 +11,11 @@ export function ajaxDelete(el) {
     url:    $form.attr('action'),
     data:   $form.serialize(),
     success: function (response) {
+      // TODO: If last item in category remove all section div
+      
       $card.remove();
       let message = `Ressource ${ressourceName} supprimé.`
+      
       notification(message, 'warning', 'makeNotif', 6000);
     }
   });

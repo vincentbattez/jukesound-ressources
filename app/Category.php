@@ -12,11 +12,7 @@ class Category extends Model
         'slug',
     ];
 
-    public function item() {
+    public function items() {
         return $this->hasMany("App\Item", "id_category");
-        /*
-            SELECT * FROM jukesound_RES_items
-            WHERE jukesound_RES_items.id_category = $this->id
-        */
     }
 }
