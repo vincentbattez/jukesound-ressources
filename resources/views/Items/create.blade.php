@@ -28,7 +28,7 @@
 @section('content')
     <section class="container">
         <h2 class="h2">Ajouter une ou plusieurs ressources</h2>
-        <form action="/upload/item/image" method="POST" enctype="multipart/form-data">
+        <form action="{{ url('upload/item/image') }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             <article class="js-category" id="category1">
                 {{--  Category  --}}
@@ -55,8 +55,21 @@
                             <div class="file-container">
                                 {{--  FILE  --}}
                                 <label class="" for="image1">Image</label>
-                                <input type="file" name="image[]" id="image1">
-                                <label class="input-file" for="image1"></label>
+                                <input type="file" name="image[]" id="image1" onchange="loadFile(event)">
+                                <label class="input-file" for="image1">
+                                    <img id="output"/>
+                                </label>
+                                <script>
+                                  var loadFile = function(event) {
+                                    var reader = new FileReader();
+                                    reader.onload = function(){
+                                      var output = document.getElementById('output');
+                                      output.src = reader.result;
+                                      $('#output').addClass('active');
+                                    };
+                                    reader.readAsDataURL(event.target.files[0]);
+                                  };
+                                </script>
                             </div>
                         </div>
                         <div class="form-group">
