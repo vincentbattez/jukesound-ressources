@@ -77,7 +77,7 @@ input[type=file] {
   border-image-slice: 12%;
   border-image-repeat: round;
 
-  #output {
+  .outputImg {
     width:      calc(100% + 8px);
     height:     calc(100% + 8px);
     object-fit: cover;

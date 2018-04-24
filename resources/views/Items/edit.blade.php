@@ -39,9 +39,9 @@
     <section class="container">
         <h2 class="h2">Modifier les informations de "{{$item->name}}"</h2>
         {!! Form::model($item->id, [
-                'route'  => ['items.store'], 
-                'action' => 'ItemsController@store',
-                'method' => 'POST',
+                'route'  => ['items.update', $item->id], 
+                'action' => 'ItemsController@update',
+                'method' => 'PUT',
                 'id'     => 'editForm'
             ])
         !!}
@@ -78,7 +78,9 @@
                                 {{--  FILE  --}}
                                 <label for="image">Image</label>
                                 {!! Form::file('image', ['id' => 'image']) !!}                                
-                                <label class="input-file" for="image"></label>
+                                <label class="input-file" for="image">
+                                    <img src="{{url($item->image)}}" class="outputImg active"/>
+                                </label>
                             </div>
                         </div>
                         <div class="form-group">

@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label for="selectCategory">Catégorie de la ressource</label>
                         <div class="title-category">
-                            <input list="categoriesData" name="inputCategory" class="form-control" placeholder="Interfaces">
+                            <input list="categoriesData" name="inputCategory" class="form-control" placeholder="Interfaces" required>
                             <datalist id="categoriesData">
                                 <label for="selectCategory" class="form-control">ou sélectionner dans la liste</label>
                                 <select name="selectCategory" id="selectCategory">
@@ -55,42 +55,31 @@
                             <div class="file-container">
                                 {{--  FILE  --}}
                                 <label class="" for="image1">Image</label>
-                                <input type="file" name="image[]" id="image1" onchange="loadFile(event)">
+                                <input type="file" name="image[]" id="image1" required>
                                 <label class="input-file" for="image1">
-                                    <img id="output"/>
+                                    <img class="outputImg"/>
                                 </label>
-                                <script>
-                                  var loadFile = function(event) {
-                                    var reader = new FileReader();
-                                    reader.onload = function(){
-                                      var output = document.getElementById('output');
-                                      output.src = reader.result;
-                                      $('#output').addClass('active');
-                                    };
-                                    reader.readAsDataURL(event.target.files[0]);
-                                  };
-                                </script>
                             </div>
                         </div>
                         <div class="form-group">
                             {{--  NOM  --}}
                             <label for="name1">Nom de la ressource</label>
-                            <input type="text" id="name1" class="form-control" name="name[]" placeholder="Bouton poussoir">
+                            <input type="text" id="name1" class="form-control" name="name[]" placeholder="Bouton poussoir" required>
                         </div>
                         <div class="form-group">
                             {{--  MAKE  --}}
                             <label for="make1">Quantité pour fabriquer un Jukebox</label>
-                            <input type="number" id="make1" class="form-control" name="make[]" placeholder="8" min="1">
+                            <input type="number" id="make1" class="form-control" name="make[]" placeholder="8" min="1" required>
                         </div>
                         <div class="form-group">
                             {{--  ACHAT  --}}
                             <label for="buy1">Quantité lors d'un achat</label>
-                            <input type="number" id="buy1" class="form-control" name="buy[]" placeholder="50" min="1">
+                            <input type="number" id="buy1" class="form-control" name="buy[]" placeholder="50" min="1" required>
                         </div>
                         <div class="form-group">
                             {{--  LIEN  --}}
                             <label for="link1">Lien achat</label>
-                            <input type="url" id="link1" class="form-control" name="link[]" placeholder="https://amazon.fr">
+                            <input type="url" id="link1" class="form-control" name="link[]" placeholder="https://amazon.fr" required>
                         </div>
                     </div>
                     <button class="btn-add-ressource d-flex js-addForm">

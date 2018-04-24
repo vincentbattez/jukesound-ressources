@@ -13,21 +13,31 @@
  * }
  */
 export function addRessource(count) {
-  let ressource = $('.js-ressource:first-child').clone();
+  const ressource = $('.js-ressource:first-child').clone();
 
   $(ressource).attr('id', 'ressource'+count);
-  // LABEL
+  // SET LABEL
   $(ressource).find('label[for="image1"]').attr('for', 'image'+count);
   $(ressource).find('label[for="name1"]').attr( 'for', 'name' +count);
   $(ressource).find('label[for="make1"]').attr( 'for', 'make' +count);
   $(ressource).find('label[for="buy1"]').attr(  'for', 'buy'  +count);
   $(ressource).find('label[for="link1"]').attr( 'for', 'link' +count);
-  // ID
-  $(ressource).find('#image1').attr('id', 'image'+count);
-  $(ressource).find('#name1').attr( 'id', 'name' +count);
-  $(ressource).find('#make1').attr( 'id', 'make' +count);
-  $(ressource).find('#buy1').attr(  'id', 'buy'  +count);
-  $(ressource).find('#link1').attr( 'id', 'link' +count);
+  
+  // SET ID
+  $(ressource).find('#image1').attr(   'id', 'image'+count);
+  $(ressource).find('.outputImg').attr('src', '').removeClass('active');
+  $(ressource).find('#name1').attr(    'id', 'name' +count).val('');
+  $(ressource).find('#make1').attr(    'id', 'make' +count).val('');
+  $(ressource).find('#buy1').attr(     'id', 'buy'  +count).val('');
+  $(ressource).find('#link1').attr(    'id', 'link' +count).val('');
+  
+  // RESET VALUES
+  $(ressource).find('#image1').attr('src', '').removeClass('active');
+  // $(ressource).find('#name1').attr( 'id', 'name' +count);
+  // $(ressource).find('#make1').attr( 'id', 'make' +count);
+  // $(ressource).find('#buy1').attr(  'id', 'buy'  +count);
+  // $(ressource).find('#link1').attr( 'id', 'link' +count);
+  
   // DATA TARGET BTN REMOVE
   $(ressource).find('.js-removeForm').data('target', 'ressource'+count);
   
@@ -59,6 +69,32 @@ export function removeForm(el) {
     let target = $(el).data('target');
     $('#'+ target).remove();
   }
+}
+
+
+/*------------------------------------*\
+    $ INPUT FILE PREVIEW
+\*------------------------------------*/
+/**
+ * Prévisualise l'image upload
+ * 
+ * 
+ * @example
+ * $('@buttonTrigger').on('click', function (e) {
+ *  removeForm(this);
+ * }
+ */
+export function previewImage(el, event) {
+  const $this = $(el)
+  const $ressource = $this.parents('.ressource');
+  const $output = $ressource.find('.outputImg');
+  const reader = new FileReader();
+
+  reader.onload = function(){
+    $output.attr('src', reader.result).addClass('active');
+  };
+
+  reader.readAsDataURL(event.target.files[0]);
 }
 
 /*------------------------------------*\

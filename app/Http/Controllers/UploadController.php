@@ -28,7 +28,7 @@ class UploadController extends Controller {
 			$categorySlug = str_slug($categoryName, '-');
 			// dd($getCategory);
 			foreach ($images as $key => $image) {
-				$getCategory  = Category::where('slug', $categorySlug)->first();
+				$getCategory  	 = Category::where('slug', $categorySlug)->first();
 				$extension       = '.'.$image->getClientOriginalExtension();
 				$imageName       = str_slug(Input::get('name')[$key]).$extension;
 				$imagePath       = 'images/'.$categorySlug.'/';
@@ -44,19 +44,16 @@ class UploadController extends Controller {
 				if($getCategory) {
 					// La category existe déjà
 					$idCategory = $getCategory->id;
-
-					echo('existe deja');
 				}else{
-					echo('category inconnu');
-					Category::insert(
+					$newCategory = Category::updateOrCreate(
 						[
 							'name' => $categoryName,
 							'slug' => $categorySlug,
 						]
 					);
-					$idCategory = Category::where('slug', $categoryName)->first()->id;
+					$idCategory = $newCategory->id;
 				}
-				Item::insert(
+				Item::updateOrCreate(
 					[
 						'id_category'      => $idCategory,
 						'name'             => $itemName,

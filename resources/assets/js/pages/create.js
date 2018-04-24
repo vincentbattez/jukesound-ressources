@@ -24,5 +24,11 @@ export default {
       e.preventDefault();
       forms.addRessource(count++);
     });
+    /* - - - - - - - - - - - - *\
+        $ PREVIEW IMAGE
+    \* - - - - - - - - - - - - */
+    $('#ressource-container').on('change', 'input[type=file]', function (event) {      
+      forms.previewImage(this, event);
+    });
   },
 };

@@ -124,21 +124,7 @@ class ItemsController extends Controller
 
         @return Stock un nouvel items dans la BDD
     */
-    public function store(Request $request, Item $items) {
-        $items = new Item();
-
-        $name             = $request->input('name');
-        $image            = $request->input('image');
-        $quantity_jukebox = $request->input('quantity_jukebox');
-        $quantity_buy     = $request->input('quantity_buy');
-        $url              = $request->input('url');
-        $category         = $request->input('inputCategory');
-
-        echo '<pre>';
-        var_dump($name);
-        echo '</pre>';
-
-        // $items->save();
+    public function store(Request $request) {
     }
 
     /*———————————————————————————————————*\
@@ -196,7 +182,47 @@ class ItemsController extends Controller
 
         @return Update the specified resource in storage
     */
-    public function update(Request $request, Item $items) {
+    public function update($id, Request $request) {
+        $item = Item::find($id);
+        $category = Category::where('name', 'like', $request->input('inputCategory'))->first();
+
+        $itemImage         = $item->image;
+        $pathImage         = base_path() . "/public/$itemImage";
+        $itemIdCategory    = $item->id_category;
+        $imageName         = class_basename($itemImage);
+        $nbSameCategory    = Item::whereIdCategory($itemIdCategory)->count();
+        // dd($nbSameCategory);
+        $inputCategoryName = $request->input('inputCategory');
+
+        // dd($inputImage);
+        
+        if ($category) {
+            // Category existant
+            $item->id_category = $category->id;
+        }else {
+            // Category inexistant (créer) 
+            $newCategory = Category::create([
+                'name' => $inputCategoryName,
+                'slug' => str_slug($inputCategoryName),
+            ]);
+            $item->id_category = $newCategory->id;
+        }
+
+        if ($request->input('name')) {
+            $item->name = $request->input('name');
+            $item->slug = str_slug($request->input('name'));
+        }
+        if ($request->input('make'))  $item->quantity_jukebox = $request->input('make');
+        if ($request->input('buy'))   $item->quantity_buy     = $request->input('buy');
+        if ($request->input('link'))  $item->url              = $request->input('link');
+        
+
+        $item->update();
+
+        if ($nbSameCategory === 1) {
+            Category::whereId($itemIdCategory)->delete();
+        }
+        return redirect::route('items.index');
     }
 
     /*———————————————————————————————————*\
