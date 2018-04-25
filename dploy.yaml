@@ -2,9 +2,9 @@ prod:
     scheme: ftp
     host: ftp.cluster026.hosting.ovh.net
     port: 21
-    user: vincentbck
-    pass: YUvSD5Yc27gE
+    user: jukeboxvgy
+    pass: Groa4VnfgVkTQ20G8M0PVHC4DG34
     check: true
     path:
-        local: test/
-        remote: .
+        local: .
+        remote: ./ressources
