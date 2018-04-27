@@ -22,3 +22,31 @@
     }
   }
 }
+
+.price {
+  &__decimal {
+    @include font-size(18px);
+
+  }
+
+  &__separator {
+
+  }
+
+  &__centime {
+
+  }
+
+  &__devise {
+
+  }
+  
+  &__separator,
+  &__centime,
+  &__devise {
+    @include font-size(14px);
+    z-index:  1;
+    position: relative;
+  }
+
+}

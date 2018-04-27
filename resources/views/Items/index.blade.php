@@ -99,6 +99,7 @@
                         <div class="card__content">
                             <p class="card__title">{{$item->name}}</p>
                         </div>
+                        
 
                         <div class="card__actions">
                             {!! Form::model($items, [
@@ -128,6 +129,14 @@
                                     {!! Form::button('Supprimer', ['class' => 'btn btn-danger', 'id' => 'decrementSubmit', 'type' => 'submit']) !!}
                                 </div>
                             {!! Form::close() !!}
+
+
+                            <div class="card__price">
+                                <span class="price">
+                                    <span class="price__decimal">{{$item->decimal}}</span><span class="price__separator">.</span><span class="price__centime">{{$item->centime}}</span> <span class="price__devise">€</span>
+                                </span>
+                            </div>
+
                             <div class="btn-group">
                                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @icon('more','icon-more')

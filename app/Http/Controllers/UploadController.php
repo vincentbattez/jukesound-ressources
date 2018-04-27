@@ -37,6 +37,7 @@ class UploadController extends Controller {
 
 				$quantityJukebox = Input::get('make')[$key];
 				$quantityBuy     = Input::get('buy')[$key];
+				$price   		     = Input::get('price')[$key];
 				
 				$url             = Input::get('link')[$key];
 
@@ -62,6 +63,7 @@ class UploadController extends Controller {
 						'quantity'         => 0,
 						'quantity_jukebox' => $quantityJukebox,
 						'quantity_buy'     => $quantityBuy,
+						'price'     			 => $price,
 						'url'              => $url,
 					]
 				);

@@ -99,6 +99,11 @@
                             {!! Form::number('buy', $item->quantity_buy, ['class' => 'form-control', 'id' => 'buy', 'placeholder' => '8', 'required', 'min' => 1]) !!}
                         </div>
                         <div class="form-group">
+                            {{--  PRICE  --}}
+                            <label for="buy">Prix de l'achat</label>
+                            {!! Form::number('price', $item->price, ['class' => 'form-control', 'id' => 'price', 'placeholder' => '21', 'required', 'min' => 0, 'step'=>'any']) !!}
+                        </div>
+                        <div class="form-group">
                             {{--  LIEN  --}}
                             <label for="link">Lien achat</label>
                             {!! Form::url('link', $item->url, ['class' => 'form-control', 'id' => 'link', 'placeholder' => 'https://www.amazon.fr/nom', 'required']) !!}

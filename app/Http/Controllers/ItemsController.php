@@ -23,6 +23,7 @@ class ItemsController extends Controller
     public function index() {
         $items      = Item::all();     // @return GET all resources
         $categories = Category::all(); // @return GET all categories
+        
         /**
          *
          *  @return Function nb Jukebox réalisable
@@ -52,6 +53,13 @@ class ItemsController extends Controller
          *  @location views/Items/index.blade.php
          *
          */
+
+        // $decimal   = intval(str_before($items[0]->price, '.'));
+        // $centime   = intval(str_after($items[0]->price, '.'));
+        // $separator = '.';
+        // dd($items[0]->price);
+        // dd(strval($items[0]->price));
+        // dd(str_contains($items[0]->price, '.'));
         return view('items.index', [
             'items'               => $items,
             'categories'          => $categories,
@@ -214,12 +222,13 @@ class ItemsController extends Controller
         }
         if ($request->input('make'))  $item->quantity_jukebox = $request->input('make');
         if ($request->input('buy'))   $item->quantity_buy     = $request->input('buy');
+        if ($request->input('price')) $item->price            = $request->input('price');
         if ($request->input('link'))  $item->url              = $request->input('link');
         
 
         $item->update();
 
-        if ($nbSameCategory === 1) {
+        if ($nbSameCategory === 1 && str_slug($request->input('inputCategory')) != str_slug($category->name)) {
             Category::whereId($itemIdCategory)->delete();
         }
         return redirect::route('items.index');

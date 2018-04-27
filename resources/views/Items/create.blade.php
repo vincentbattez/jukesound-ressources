@@ -77,6 +77,11 @@
                             <input type="number" id="buy1" class="form-control" name="buy[]" placeholder="50" min="1" required>
                         </div>
                         <div class="form-group">
+                            {{--  PRIX  --}}
+                            <label for="price1">Prix de l'achat</label>
+                            <input type="number" id="price1" class="form-control" name="price[]" placeholder="50" min="0" step="any" required>
+                        </div>
+                        <div class="form-group">
                             {{--  LIEN  --}}
                             <label for="link1">Lien achat</label>
                             <input type="url" id="link1" class="form-control" name="link[]" placeholder="https://amazon.fr" required>

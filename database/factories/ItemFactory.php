@@ -11,6 +11,7 @@ $factory->define(App\Item::class, function (Faker $faker) {
         'quantity'         => rand(0,150),
         'quantity_jukebox' => rand(1,20),
         'quantity_buy'     => rand(1,100),
+        'price'            => $faker->randomFloat(3, 0, 100),
         'url'              => $faker->url,
         'image'            => $faker->imageUrl,
     ];

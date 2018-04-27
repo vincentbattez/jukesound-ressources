@@ -24,6 +24,7 @@ class CreateItemsTable extends Migration
             $table->integer('quantity');
             $table->integer('quantity_jukebox');
             $table->integer('quantity_buy');
+            $table->decimal('price');
             $table->longText('url');
             $table->string('image');
             

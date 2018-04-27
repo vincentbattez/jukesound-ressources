@@ -22,6 +22,7 @@ export function addRessource(count) {
   $(ressource).find('label[for="make1"]').attr( 'for', 'make' +count);
   $(ressource).find('label[for="buy1"]').attr(  'for', 'buy'  +count);
   $(ressource).find('label[for="link1"]').attr( 'for', 'link' +count);
+  $(ressource).find('label[for="price1"]').attr('for', 'price'+count);
   
   // SET ID
   $(ressource).find('#image1').attr(   'id', 'image'+count);
@@ -30,13 +31,10 @@ export function addRessource(count) {
   $(ressource).find('#make1').attr(    'id', 'make' +count).val('');
   $(ressource).find('#buy1').attr(     'id', 'buy'  +count).val('');
   $(ressource).find('#link1').attr(    'id', 'link' +count).val('');
+  $(ressource).find('#price1').attr(   'id', 'price'+count).val('');
   
-  // RESET VALUES
+  // RESET IMAGE
   $(ressource).find('#image1').attr('src', '').removeClass('active');
-  // $(ressource).find('#name1').attr( 'id', 'name' +count);
-  // $(ressource).find('#make1').attr( 'id', 'make' +count);
-  // $(ressource).find('#buy1').attr(  'id', 'buy'  +count);
-  // $(ressource).find('#link1').attr( 'id', 'link' +count);
   
   // DATA TARGET BTN REMOVE
   $(ressource).find('.js-removeForm').data('target', 'ressource'+count);

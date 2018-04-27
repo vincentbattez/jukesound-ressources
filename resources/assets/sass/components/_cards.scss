@@ -147,6 +147,28 @@ $width-dropdown: 67px;
     
   }
 
+  &__price {
+    @extend                     %center-flex_xy;
+    background-color:           #77dab6;
+    color:                      white;
+    padding:                    8px 20px;
+    align-self:                 center;
+    border-top-right-radius:    5px;
+    border-bottom-right-radius: 5px;
+    position:                   relative;
+    overflow:                   hidden;
+    padding-right:              55px;
+    
+    .price__devise {
+      position:  absolute;
+      top:       -10px;
+      right:     10px;
+      font-size: 50px;
+      color:     #69cea9;
+      z-index:   0;
+    }
+  }
+
   //-- modificateur --//
   @each $name, $color in $list-etat {
     &--#{$name} {
@@ -166,8 +188,16 @@ $width-dropdown: 67px;
     }
   }
 }
-.card--danger .card__stock{
-  color: $danger;
+.card--danger {
+  .card__price {
+    background-color: #00A86B;
+  }
+  .card__stock {
+    color: $danger;
+  }
+  .price__devise {
+    color:#039a63;
+  }
 }
 
 
