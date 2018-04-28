@@ -68,7 +68,7 @@ input[type=file] {
   height:     75px;
   width:      75px;
   cursor:     pointer;
-  @extend     %center-flex_xy;
+  @extend     %f-xy;
   box-shadow: none;
 
   border-style: dotted;
@@ -95,7 +95,7 @@ input[type=file] {
     height:        3px;
     background:    $grey--d1;
     border-radius: 2px;
-    @extend        %center-absolute_xy;
+    @extend        %a-xy;
   }
   &:before{ transform: translate(-50%, -50%) rotate(90deg); }
 }

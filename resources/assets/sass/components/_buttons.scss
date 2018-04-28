@@ -61,7 +61,7 @@
     width:         10px;
     height:        2px;
     border-radius: 2px;
-    @extend        %center-absolute_xy;
+    @extend        %a-xy;
   }
 
   &:hover {

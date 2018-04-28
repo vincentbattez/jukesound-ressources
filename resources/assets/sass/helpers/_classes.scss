@@ -23,10 +23,31 @@
   }
 }
 
+/*———————————————————————————————————*\
+    $ CENTER FLEX
+\*———————————————————————————————————*/
+.f-x  { @extend %f-x; }
+.f-y  { @extend %f-y; }
+.f-xy { @extend %f-xy; }
+
+/*———————————————————————————————————*\
+    $ CENTER ABSOLUTE
+\*———————————————————————————————————*/
+.a-x  { @extend %a-x; }
+.a-y  { @extend %a-y; }
+.a-xy { @extend %a-xy; }
+
+/*———————————————————————————————————*\
+    $ CENTER BLOCK
+\*———————————————————————————————————*/
+.b-x  { @extend %b-x; }
+
+/*———————————————————————————————————*\
+    $ PRICE
+\*———————————————————————————————————*/
 .price {
   &__decimal {
     @include font-size(18px);
-
   }
 
   &__separator {
@@ -49,4 +70,12 @@
     position: relative;
   }
 
+}
+
+.section-card {
+  background-color: #fff;
+  margin-bottom:    40px;
+  padding:          25px;
+  padding-top:      20px;
+  box-shadow:       $shadow--1;
 }

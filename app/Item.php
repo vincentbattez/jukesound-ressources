@@ -18,37 +18,41 @@ class Item extends Model
         'url',
         'image',
     ];
-    protected $appends = ['decimal'];
+    protected $appends = [
+        'list_price',
+    ];
 
     public function category() {
         return $this->belongsTo("App\Category", "id_category");
     }
 
-    // DECIMAL
-    public function getDecimalAttribute() {
-            $hasPoint = str_contains($this->price, '.');
+    // LISTE DES PRIX
+    public function getListPriceAttribute() {
+        $price    = $this->price;
+        $unitaire = unitPrice($price, $this->quantity_buy);
+        $rest     =
+            ($this->quantity >= $this->quantity_jukebox)
+                ? 0
+                : $unitaire * ($this->quantity_jukebox - $this->quantity);
 
-            if($hasPoint) {
-                return intval(str_before($this->price, '.'));
-            }else {
-                return $this->price;
-            }
-    }
+        $prices = (object) [
+            'price'    => (object) [
+                'full'    => $price,
+                'decimal' => priceDecimal($price),
+                'centime' => priceCentime($price),
+            ],
+            'unitaire' => (object) [
+                'full'    => $unitaire,
+                'decimal' => priceDecimal($unitaire),
+                'centime' => priceCentime($unitaire),
+            ],
+            'rest'     => (object) [
+                'full'    => $rest,
+                'decimal' => priceDecimal($rest),
+                'centime' => priceCentime($rest),
+            ],
+        ];
 
-    // CENTIME
-    public function getCentimeAttribute() {
-
-        $hasPoint = str_contains($this->price, '.');
-        $centime = intval(str_after($this->price, '.'));
-            
-        if($hasPoint) {
-            if ($centime < 10) {
-                return '0'.$centime;
-            }else {
-                return $centime;
-            }
-        }else {
-            return '00';
-        }
+        return $prices;
     }
 }

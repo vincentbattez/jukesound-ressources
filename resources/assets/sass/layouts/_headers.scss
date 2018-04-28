@@ -17,11 +17,12 @@
     color:               white;
     box-shadow:          inset 0px 2038px rgba(0, 0, 0, 0.6);
     background-size:     cover;
+    box-shadow:          $shadow--2;
   }
   &--big {
     height:              calc(100vh - #{$h-nav});
     padding-bottom:      0;
-    margin-bottom:       100px;
+    margin-bottom:       40px;
   }
 }
 
@@ -53,7 +54,7 @@
     $ WHITE BLOCK
 \*------------------------------------*/
 .header__white-block {
-  @extend          %center-flex_y;
+  @extend          %f-y;
   flex-wrap:       wrap;
   justify-content: flex-end;
   padding:         20px;
@@ -80,14 +81,14 @@
       $ header white text
   \* - - - - - - - - - - - - */
   &__text {
-    @extend    %center-flex_x;
+    @extend    %f-x;
     flex-wrap: wrap;
   }
   /* - - - - - - - - - - - - *\
       $ header white action
   \* - - - - - - - - - - - - */
   &__action {
-    @extend    %center-flex_x;
+    @extend    %f-x;
     width:     100%;
     .form-inline{z-index: 1;}
     .form-inline:first-child {

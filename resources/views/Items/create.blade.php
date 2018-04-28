@@ -26,7 +26,7 @@
     CONTENT
 ----------------}}
 @section('content')
-    <section class="container">
+    <section class="container section-card">
         <h2 class="h2">Ajouter une ou plusieurs ressources</h2>
         <form action="{{ url('upload/item/image') }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}

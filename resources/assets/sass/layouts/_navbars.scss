@@ -2,13 +2,14 @@
     $ NAV
 \*------------------------------------*/
 .main-nav {
-  @extend %center-flex_xy;
+  @extend %f-xy;
   height: $h-nav;
+  background-color: #fff;
   /* - - - - - - - - - - - - *\
       $ ITEM
   \* - - - - - - - - - - - - */
   .nav-item{
-    @extend %center-flex_xy;
+    @extend %f-xy;
   }
 
   .pull-right{
@@ -41,7 +42,7 @@
       height:     2px;
       position:   absolute;
       bottom:     0;
-      @extend     %center-absolute_x;
+      @extend     %a-x;
       transition: all 300ms $bounce;
     }
 

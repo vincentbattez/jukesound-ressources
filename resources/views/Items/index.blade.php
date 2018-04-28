@@ -72,16 +72,51 @@
 ----------------}}
 @section('content')
 <section class="container">
+    <section class="section-stats">
+        <div class="stat stat--make">
+            <div class="stat__icon">
+                @icon('stat-make','icon-stat-make')
+            </div>
+            <div class="stat__content">
+                <div class="stat__title">Prix Jukebox</div>
+                    @price([
+                        'price_decimal' => $make_prices->make->decimal,
+                        'price_centime' => $make_prices->make->centime
+                    ])
+                    @endprice
+            </div>
+            </p>
+        </div>
+
+        <div class="stat stat--rest">
+                <div class="stat__icon">
+                    @icon('stat-rest','icon-stat-rest')
+                </div>
+                <div class="stat__content">
+                    <div class="stat__title">Prix restant</div>
+                        @price([
+                            'price_decimal' => $make_prices->rest->decimal,
+                            'price_centime' => $make_prices->rest->centime
+                        ])
+                        @endprice
+                </div>
+                </p>
+            </div>
+    </section>
+</section>
+
+
+<section class="container">
     <h2 class="h2">Liste des ressources</h2>
     @foreach($categories as $category)
-    <section class="section-category" aria-label="Catégorie : {{$category->name}}">
+    <section class="section-category section-card" aria-label="Catégorie : {{$category->name}}">
         <button class="title-category" data-toggle="collapse" href="#collapse{{$category->name}}" role="button" aria-expanded="true" aria-controls="collapse{{$category->name}}">
-            <h3 class="h3">{{$category->name}}</h3>
+            <h3 class="h2">{{$category->name}}</h3>
         </button>
         <div class="list-card collapse show" id="collapse{{$category->name}}">
             @foreach($items as $item)
                 @if($item->category->name == $category->name)
-                    <div class="card card--{{ $item->quantity >= $item->quantity_jukebox ? 'success' : 'danger' }}" id="{{$item->slug}}"> 
+                    <article class="card card--{{ $item->quantity >= $item->quantity_jukebox ? 'success' : 'danger' }}" id="{{$item->slug}}"> 
 
                         <div class="card__image">
                             <img src="{{ asset($item->image) }}" alt="image de la ressource {{$item->name}}">
@@ -132,9 +167,11 @@
 
 
                             <div class="card__price">
-                                <span class="price">
-                                    <span class="price__decimal">{{$item->decimal}}</span><span class="price__separator">.</span><span class="price__centime">{{$item->centime}}</span> <span class="price__devise">€</span>
-                                </span>
+                                @price([
+                                    'price_decimal' => $item->list_price->rest->decimal,
+                                    'price_centime' => $item->list_price->rest->centime
+                                ])
+                                @endprice
                             </div>
 
                             <div class="btn-group">
@@ -160,7 +197,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 @endif
             @endforeach
         </div>

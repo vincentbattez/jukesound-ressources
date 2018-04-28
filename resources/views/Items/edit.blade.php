@@ -36,7 +36,7 @@
     CONTENT
 ----------------}}
 @section('content')
-    <section class="container">
+    <section class="container section-card">
         <h2 class="h2">Modifier les informations de "{{$item->name}}"</h2>
         {!! Form::model($item->id, [
                 'route'  => ['items.update', $item->id], 

@@ -1,0 +1,52 @@
+.section-stats {
+  display:       flex;
+  margin-bottom:  40px;
+}
+
+.stat {
+  display:          flex;
+  background-color: #fff;
+  box-shadow:       $shadow--1;
+
+  &:not(:last-child) {
+    margin-right: 40px;
+  }
+
+  /*___________ Structure  ___________*/
+    &__icon {
+      padding:     20px;
+      display:     flex;
+      align-items: center;
+
+      .icon {
+        width:  50px;
+        height: 50px;
+      }
+
+    }
+
+    &__content {
+      padding: 20px;
+
+    }
+
+    &__title {
+      text-transform: uppercase;
+
+    }
+
+  /*___________  Modifier  ___________*/
+    @each $name, $color in ('make', $green), ('rest', #FF625F) {
+      &--#{$name} {
+
+        .stat__icon {
+          background-color: $color;
+        }
+
+        .stat__title {
+          color: $color;
+        }
+      }
+    }
+  /*___________  Content   ___________*/
+}

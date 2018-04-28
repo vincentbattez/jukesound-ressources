@@ -23,6 +23,25 @@ class ItemsController extends Controller
     public function index() {
         $items      = Item::all();     // @return GET all resources
         $categories = Category::all(); // @return GET all categories
+        $make_full  = 0;
+        $make_rest  = 0;
+
+        foreach ($items as $item) {
+            $make_full += $item->list_price->unitaire->full * $item->quantity_jukebox;
+            $make_rest += $item->list_price->rest->full;
+        }
+        $make_prices = (object) [
+            'make' => (object) [
+                'full'    => $make_full,
+                'decimal' => priceDecimal($make_full),
+                'centime' => priceCentime($make_full),
+            ],
+            'rest' => (object) [
+                'full'    => $make_rest,
+                'decimal' => priceDecimal($make_rest),
+                'centime' => priceCentime($make_rest),
+            ],
+        ];
         
         /**
          *
@@ -53,15 +72,9 @@ class ItemsController extends Controller
          *  @location views/Items/index.blade.php
          *
          */
-
-        // $decimal   = intval(str_before($items[0]->price, '.'));
-        // $centime   = intval(str_after($items[0]->price, '.'));
-        // $separator = '.';
-        // dd($items[0]->price);
-        // dd(strval($items[0]->price));
-        // dd(str_contains($items[0]->price, '.'));
         return view('items.index', [
             'items'               => $items,
+            'make_prices'         => $make_prices,
             'categories'          => $categories,
             'nbJukeboxRealisable' => $nbJukeboxRealisable
         ]);
@@ -199,10 +212,8 @@ class ItemsController extends Controller
         $itemIdCategory    = $item->id_category;
         $imageName         = class_basename($itemImage);
         $nbSameCategory    = Item::whereIdCategory($itemIdCategory)->count();
-        // dd($nbSameCategory);
         $inputCategoryName = $request->input('inputCategory');
 
-        // dd($inputImage);
         
         if ($category) {
             // Category existant
