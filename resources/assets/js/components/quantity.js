@@ -32,6 +32,17 @@ export function ajaxAction(el) {
   let nameRessource      = $card.find('.card__title').text();
   let IdRessource        = $card.attr('id');
   let numberInputValue   = $el.closest('.form-group').find('[type=number]').val();
+  
+  let $priceDecimal      = $card.find('.price__decimal');
+  let $priceCentime      = $card.find('.price__centime');
+
+  let $statRestDecimal   = $el.parents('main').find('.stat--rest .price__decimal');
+  let $statRestCentime   = $el.parents('main').find('.stat--rest .price__centime');
+  
+  let $statMakeDecimal   = $el.parents('main').find('.stat--make .price__decimal');
+  let $statMakeCentime   = $el.parents('main').find('.stat--make .price__centime');
+
+  console.log($statRestCentime);
 
   /* - - - - - - - - - - - - - - - - -*\
       $ LANCER LA FABRICATION CLICK
@@ -68,6 +79,14 @@ export function ajaxAction(el) {
         let allNewStock   = parseInt($(data).find('.stock__value'));
         let message       = ($el.attr('id') == 'incrementSubmit') ? 'Ajout': 'Suppression';
             message       += ' de <strong>' + numberInputValue +'</strong> <a href="#'+IdRessource+'">'+ nameRessource + '</a>';
+        let priceDecimal  = $(data).find('#'+ idCard + ' .price__decimal').text();
+        let priceCentime  = $(data).find('#'+ idCard + ' .price__centime').text();
+
+        let statRestDecimal  = $(data).find('.stat--rest .price__decimal').text();
+        let statRestCentime  = $(data).find('.stat--rest .price__centime').text();
+
+        let statMakeDecimal  = $(data).find('.stat--make .price__decimal').text();
+        let statMakeCentime  = $(data).find('.stat--make .price__centime').text();
 
         /**** REMPLACEMENTS  */
         /**/ $maxMake.attr('value', (newMaxMake == 0) ? 0 : 1);                  // Nombre jukebox réalisable value
@@ -77,6 +96,14 @@ export function ajaxAction(el) {
         /**/ $nbJukebox.text(newNbJukebox);                                      // value of "lancer la fabrication"
         /**/ $el.removeAttr('disabled');                                         // Disabled trigger click
         /**/ $el.text(elOldText);                                                // replace text trigger click
+        /**/ $priceDecimal.text(priceDecimal);                                   // replace price decimal card
+        /**/ $priceCentime.text(priceCentime);                                   // replace price centime card
+
+        /**/ $statRestDecimal.text(statRestDecimal);                                   // replace price decimal card
+        /**/ $statRestCentime.text(statRestCentime);                                   // replace price centime card
+        
+        /**/ $statMakeDecimal.text(statMakeDecimal);                                   // replace price decimal card
+        /**/ $statMakeCentime.text(statMakeCentime);                                   // replace price centime card
         /* - - - - - - - - - - - - - - - - -*\
             $ LANCER LA FABRICATION CLICK
         \* - - - - - - - - - - - - - - - - -*/
